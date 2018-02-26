@@ -1,0 +1,22 @@
+<h2>Welfinity Markets</h2>
+
+<div *ngIf="showProgressBar">
+  <mat-progress-bar   mode="indeterminate"></mat-progress-bar>
+</div>
+
+<ul class="markets">
+  <li *ngFor="let market of markets">
+    <a routerLink="/detail/{{market.name}}">
+    <span class="badge">{{market._id}}</span>  {{market.name}}
+    </a>
+  </li>
+</ul>
+<button mat-button color="CreateMarket" (click)="WIM_createMarket()" >WIM</button>
+<button mat-button color="CreateMarket" (click)="WDM_Extract_and_Aggregate()" >WDM</button>
+<input #productCode
+(keyup.enter)="WDM_Extract_and_Aggregate(productCode.value)"
+>
+
+<button (click)="WDM_Extract_and_Aggregate_get_file(productCode.value)">Add</button>
+
+<app-market-search></app-market-search>

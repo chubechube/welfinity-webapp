@@ -1,0 +1,26 @@
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<div>
+
+    <mat-toolbar color="primary">
+        <span>Welfinity Portal</span>
+      
+        <!-- This fills the remaining space of the current row -->
+        <span class="fill-remaining-space"></span>
+      
+        <span>
+            <mat-menu #appMenu="matMenu">
+                <button mat-menu-item>Settings</button>
+                <button mat-menu-item>Markets</button>
+              </mat-menu>
+              
+              <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu x-position="before" #menu="matMenu">
+                  <button mat-menu-item  routerLink="/markets" >Markets</button>
+                  <button mat-menu-item routerLink="/dashboard">Dashboard</button>
+                </mat-menu>
+        </span>
+      </mat-toolbar>
+<router-outlet></router-outlet>
+<app-messages></app-messages>
