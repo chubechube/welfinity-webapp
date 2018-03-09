@@ -10,6 +10,9 @@ import { MarketDetailComponent } from './market-detail/market-detail.component';
 import { MarketsComponent } from './markets/markets.component';
 import { MessagesComponent } from './messages/messages.component';
 import { MarketSearchComponent } from './market-search/market-search.component';
+import { AggregationsComponent } from './aggregations/aggregations.component';
+import { ProductDetailComponent } from './product-detail/product-detail.component';
+import { ProductSearchComponent } from './product-search/product-search.component';
 
 //Services
 import { MarketService } from './Services/market.service';
@@ -24,6 +27,9 @@ import { AppRoutingModule } from './/app-routing.module';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatFormFieldModule} from '@angular/material/form-field';
+
 
 import {
   MatButtonModule,
@@ -32,8 +38,14 @@ import {
   MatIconModule,
   MatIconRegistry,
   MatProgressBarModule,
-  MatCardModule
+  MatCardModule,
+  MatNativeDateModule,
+  MatInputModule
+  
 } from '@angular/material';
+
+
+
 
 @NgModule({
   imports: [
@@ -44,7 +56,11 @@ import {
     MatToolbarModule,
     MatIconModule,
     MatProgressBarModule,
-    MatCardModule
+    MatCardModule,
+    MatDatepickerModule,
+    MatFormFieldModule,
+    MatNativeDateModule,
+    MatInputModule
   ],
   exports: [
     BrowserModule,
@@ -54,8 +70,15 @@ import {
     MatToolbarModule,
     MatIconModule,
     MatProgressBarModule,
-    MatCardModule
-  ]
+    MatCardModule,
+    MatDatepickerModule,
+    MatFormFieldModule,
+    MatNativeDateModule,
+    MatInputModule
+  ],
+
+
+
 })
 export class MaterialModule {}
 
@@ -66,7 +89,9 @@ export class MaterialModule {}
     AppRoutingModule,
     HttpClientModule,
     MaterialModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   declarations: [
     AppComponent,
@@ -74,7 +99,10 @@ export class MaterialModule {}
     MarketsComponent,
     MarketDetailComponent,
     MessagesComponent,
-    MarketSearchComponent
+    MarketSearchComponent,
+    AggregationsComponent,
+    ProductDetailComponent,
+    ProductSearchComponent
   ],
   entryComponents: [DashboardComponent],
   providers: [ MarketService, MessageService ,WelfinityscriptsService,ProductsService ],

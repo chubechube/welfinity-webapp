@@ -1,0 +1,13 @@
+
+<h1>Product details : {{product}} : </h1>
+<div *ngIf="product">
+ 
+  <h2>{{ product.FDI_0001 | uppercase }} Details</h2>
+  <div><span>Product Code: </span>{{product.FDI_0001}}</div>
+  <div>
+    <label>Descripton:
+      <input [(ngModel)]="product.FDI_0004" placeholder="FDI_0004">
+    </label>
+  </div>
+  <button (click)="goBack()">go back</button>
+</div>

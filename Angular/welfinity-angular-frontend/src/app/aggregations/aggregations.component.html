@@ -1,0 +1,42 @@
+<h2>Welfinity Aggregation Service</h2>
+
+<div *ngIf="showProgressBar">
+  <mat-progress-bar   mode="indeterminate"></mat-progress-bar>
+</div>
+
+
+<div id="search-component">
+  <h4>Product Search</h4>
+  <input  #searchBox id="search-box" (keyup)="search(searchBox.value)" [(ngModel)]="mybox" />
+
+  <button class="Aggregate" title="Aggregate Data"
+      (click)="WDM_Extract_and_Aggregate_get_file(searchBox.value)">Aggegate</button>
+  
+  <ul class="search-result">
+    <li *ngFor="let product of products$ | async" >
+      <a >
+       <a (click)="enterProductCode(product.FDI_0001)"> <span class="badge"> {{product.FDI_0001}}</span>  {{product.FDI_0004}}</a>      
+      </a>
+    </li> 
+  </ul>
+</div>
+
+<div>
+    <mat-form-field>
+        <input matInput [matDatepicker]="picker1" placeholder="Input & change events 1"
+               (dateInput)="addEvent1('input', $event)" (dateChange)="addEvent1('change', $event)">
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+      </mat-form-field>
+</div>
+
+
+
+<div>
+    <mat-form-field>
+        <input matInput [matDatepicker]="picker2" placeholder="Input & change events 2"
+               (dateInput)="addEvent2('input', $event)" (dateChange)="addEvent2('change', $event)">
+        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+      </mat-form-field>
+</div>

@@ -1,6 +1,9 @@
 #Nodejs
 FROM node:latest
 
+# Expose the port the app runs in
+EXPOSE 4200
+
 # File Author / Maintainer
 LABEL maintainer="Cristiano Ressi Di Cervia"
 
@@ -13,14 +16,6 @@ WORKDIR /usr/src/app
 # Copy dependency definitions
 COPY ./welfinity-angular-frontend/package.json /usr/src/app
 
-# Install dependecies
-#RUN npm install
 
 # Get all the code needed to run the app
 COPY ./welfinity-angular-frontend /usr/src/app
-
-# Expose the port the app runs in
-EXPOSE 4200
-
-# Serve the app
-#CMD ["npm", "start"]

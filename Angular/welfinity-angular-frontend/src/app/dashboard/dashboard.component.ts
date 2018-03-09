@@ -10,16 +10,16 @@ import { MarketService } from '../Services/market.service';
 })
 export class DashboardComponent implements OnInit {
 
-  markets: Market[] = [];
+ // markets: Market[] = [];
 
   constructor(private marketService: MarketService) { }
 
   ngOnInit() {
-    this.getMarkets();
+   // this.getMarkets();
   }
 
   getMarkets(): void {
-    this.marketService.getMarkets()
-      .subscribe(markets => this.markets = markets.slice(1, 5));
+    //this.marketService.getMarkets()
+   //   .subscribe(markets => this.markets = markets.slice(1, 5));
   }
 }

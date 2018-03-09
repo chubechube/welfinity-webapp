@@ -22,7 +22,7 @@ this.sshClient.once('ready', function() {
     });
   });
 }).connect({
-  host: '94.23.179.228',
+  host: process.env.WDM_SERVER,
   port: 22,
   username: 'ressic',
   password: 'wW.H277gf'
@@ -50,13 +50,17 @@ WDM_Extract_And_Aggregate(req,res){
             console.log('STDERR: ' + data);
             
                 });
-          console.log("PRODUCT CODE "+req.query.productCode);
-          console.log("ContainerName=$(echo wW.H277gf | sudo -S sudo -S docker ps -aq --filter ancestor=chube/wdmservice:latest)\n sudo -S docker container exec  ${ContainerName} ./Extract_and_Aggregate_Italy.sh 94.23.179.228 27017 talendUser ba+Req6@agu6 Pharmacies_list Italy markets Product_Dictionaries_Italy /data/aggregate/Italy/toAggregate/ /data/aggregate/Italy/Aggregated/ filetoaggregate.csv aggregated.xls /var/log/welfinity/talend/WDM/  italy_prp Product_ID '"+req.query.productCode+"' Transaction_Timestamp 01/01/2015 31/12/2017 'ressic@94.23.179.228:/data/aggregate/Italy/toAggregate' 94.23.179.225 nodiuser\nexit\n");
-          stream.end("ContainerName=$(echo wW.H277gf | sudo -S sudo -S docker ps -aq --filter ancestor=chube/wdmservice:latest)\n sudo -S docker container exec  ${ContainerName} ./Extract_and_Aggregate_Italy.sh 94.23.179.228 27017 talendUser ba+Req6@agu6 Pharmacies_list Italy markets Product_Dictionaries_Italy /data/aggregate/Italy/toAggregate/ /data/aggregate/Italy/Aggregated/ filetoaggregate.csv aggregated.xls /var/log/welfinity/talend/WDM/  italy_prp Product_ID '"+req.query.productCode+"' Transaction_Timestamp 01/01/2015 31/12/2017 'ressic@94.23.179.228:/data/aggregate/Italy/toAggregate' 94.23.179.225 nodiuser\nexit\n");
-      
-      });
+          console.log("start date "+req.query.startdate);
+          console.log("end date "+req.query.enddate);
+          //console.log("NEW COMMAND "+process.env.WIM_SCRIPT);
+          //console.log("PRODUCT CODE "+req.query.productCode);
+          //console.log("ContainerName=$(echo wW.H277gf | sudo -S sudo -S docker ps -aq --filter ancestor=chube/wdmservice:latest)\n sudo -S docker container exec  ${ContainerName} ./Extract_and_Aggregate_Italy.sh 94.23.179.228 27017 talendUser ba+Req6@agu6 Pharmacies_list Italy markets Product_Dictionaries_Italy /data/aggregate/Italy/toAggregate/ /data/aggregate/Italy/Aggregated/ filetoaggregate.csv aggregated.xls /var/log/welfinity/talend/WDM/  italy_prp Product_ID '"+req.query.productCode+"' Transaction_Timestamp 01/01/2015 31/12/2017 'ressic@94.23.179.228:/data/aggregate/Italy/toAggregate' 94.23.179.225 nodiuser\nexit\n");
+          console.log(process.env.WDM_SCRIPT_EXTRACT_AND_AGGREGATE+" " + process.env.WDM_SERVER+ " 27017 talendUser ba+Req6@agu6 Pharmacies_list Italy markets Product_Dictionaries_Italy /data/aggregate/Italy/toAggregate/ /data/aggregate/Italy/Aggregated/ filetoaggregate.csv aggregated.xls /var/log/welfinity/talend/WDM/  italy_prp Product_ID '" +req.query.productCode+"' Transaction_Timestamp "+ req.query.startdate +" "+req.query.enddate +" "+process.env.WDM_DESTINATION_FOLDER +" 94.23.179.225 nodiuser\nexit\n");
+          //stream.end(process.env.WDM_SCRIPT_EXTRACT_AND_AGGREGATE+" " + process.env.WDM_SERVER+ " 27017 talendUser ba+Req6@agu6 Pharmacies_list Italy markets Product_Dictionaries_Italy /data/aggregate/Italy/toAggregate/ /data/aggregate/Italy/Aggregated/ filetoaggregate.csv aggregated.xls /var/log/welfinity/talend/WDM/  italy_prp Product_ID '" +req.query.productCode+"' Transaction_Timestamp 01/01/2015 31/12/2017 "+process.env.WDM_DESTINATION_FOLDER +" 94.23.179.225 nodiuser\nexit\n");
+          stream.end(process.env.WDM_SCRIPT_EXTRACT_AND_AGGREGATE+" " + process.env.WDM_SERVER+ " 27017 talendUser ba+Req6@agu6 Pharmacies_list Italy markets Product_Dictionaries_Italy /data/aggregate/Italy/toAggregate/ /data/aggregate/Italy/Aggregated/ filetoaggregate.csv aggregated.xls /var/log/welfinity/talend/WDM/  italy_prp Product_ID '" +req.query.productCode+"' Transaction_Timestamp "+ req.query.startdate +" "+req.query.enddate +" "+process.env.WDM_DESTINATION_FOLDER +" 94.23.179.225 nodiuser\nexit\n");     
+        });
       }).connect({
-        host: '94.23.179.228',
+        host: process.env.WDM_SERVER,
         port: 22,
         username: 'ressic',
         password: 'wW.H277gf'
@@ -86,7 +90,7 @@ startWimService(res){
       
       });
       }).connect({
-        host: '94.23.179.229',
+        host: process.env.WIM_SERVER,
         port: 22,
         username: 'ressic',
         password: 'wW.H277gf'

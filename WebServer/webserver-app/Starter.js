@@ -66,8 +66,8 @@ const session                   = require('express-session');
 
 
 
-
-
+    //Configuration info  Info
+   
     //Redis Server Creation 
 
     var redisHandler = new RedisHandler(spider,process.env.REDIS_ADDRESS,process.env.REDIS_USER);

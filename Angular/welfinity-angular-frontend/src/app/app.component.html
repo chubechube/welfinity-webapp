@@ -8,17 +8,13 @@
         <span class="fill-remaining-space"></span>
       
         <span>
-            <mat-menu #appMenu="matMenu">
-                <button mat-menu-item>Settings</button>
-                <button mat-menu-item>Markets</button>
-              </mat-menu>
-              
               <button mat-icon-button [matMenuTriggerFor]="menu">
                 <mat-icon>more_vert</mat-icon>
               </button>
               <mat-menu x-position="before" #menu="matMenu">
                   <button mat-menu-item  routerLink="/markets" >Markets</button>
                   <button mat-menu-item routerLink="/dashboard">Dashboard</button>
+                  <button mat-menu-item routerLink="/aggregations">Aggregation</button>
                 </mat-menu>
         </span>
       </mat-toolbar>

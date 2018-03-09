@@ -56,8 +56,8 @@ export class WelfinityscriptsService {
     );
   }
  
-  WDM_Extract_and_Aggregate_GetFile(productCode: string): Observable<Blob> {
-    const url = `${this.WDM_Extract_and_Aggregate_Url}/?productCode=${productCode}`;
+  WDM_Extract_and_Aggregate_GetFile(productCode: string,startdate: String,enddate: String): Observable<Blob> {
+    const url = `${this.WDM_Extract_and_Aggregate_Url}/?productCode=${productCode}&startdate=${startdate}&enddate=${enddate}`;
     return this.http.get(url, {
         responseType: "blob"
       });

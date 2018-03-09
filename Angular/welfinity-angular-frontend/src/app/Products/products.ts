@@ -1,5 +1,5 @@
 export class Product {
-    Code: string;
-    name: string;
+    FDI_0001: string;
+    FDI_0004: string;
     Country : string;
   }

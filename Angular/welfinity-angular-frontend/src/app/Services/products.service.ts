@@ -13,7 +13,7 @@ const httpOptions = {
 
 @Injectable()
 export class ProductsService {
-  private productsUrl = 'http://94.23.179.229:3030/markets';
+  private productsUrl = 'http://94.23.179.229:3030/product';
 
 
   constructor(
@@ -48,6 +48,21 @@ private handleError<T> (operation = 'operation', result?: T) {
       catchError(this.handleError<Product>(`getProduct id=${id}`))
     );
   }
+
+  searchProducts(term: string): Observable<Product[]> {
+    const productsUrl = `${this.productsUrl}/?is=${term}`;
+    if (!term.trim()) {
+      // if not search term, return empty market array.
+      return of([]);
+    }
+    return this.http.get<Product[]>(`${this.productsUrl}?code=${term}`).pipe(
+      tap(_ => this.log(`found products matching "${term}"`)),
+      catchError(this.handleError<Product[]>('searchProducts', []))
+    );
+  
+  
+  }
+  
 
   private log(message: string) {
     this.messageService.add('ProductService: ' + message);

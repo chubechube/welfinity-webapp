@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Market } from '../markets/market';
 import { MarketService } from '../Services/market.service';
 import { WelfinityscriptsService } from '../Services/welfinityscripts.service';
-import { saveAs } from 'file-saver/FileSaver';
+
 
 
 
@@ -42,29 +42,7 @@ export class MarketsComponent implements OnInit {
   
   }
 
-  WDM_Extract_and_Aggregate(productCode: string){
-    this.showProgressBar = true;
-   
-    this.welfinityscriptsService.WDM_Extract_and_Aggregate(productCode).subscribe(data => {this.requetResult =  data['result'];   console.log('result ' + this.requetResult);
-    this.showProgressBar = false;});
-
-  }
-
-  WDM_Extract_and_Aggregate_get_file(productCode: string){
-    this.showProgressBar = true;
-   
-    this.welfinityscriptsService.WDM_Extract_and_Aggregate_GetFile(productCode).subscribe(data => { var blob = new Blob([data], {type: 'application/vnd.ms-excel'});
-    var filename = 'aggregated.xls';
-    saveAs(blob, filename);
-      this.showProgressBar = false;
-    });
-    
-
-  }
-
-  enterProductCode(productCode: string) {
-    console.log("Entered Value = "+productCode);
-    }
+ 
 
   add(name: string): void {
     name = name.trim();
@@ -75,9 +53,5 @@ export class MarketsComponent implements OnInit {
       });
   }
 
-  delete(market: Market): void {
-    this.markets = this.markets.filter(h => h !== market);
-    this.marketService.deleteMarket(market).subscribe();
-  }
 }
 
