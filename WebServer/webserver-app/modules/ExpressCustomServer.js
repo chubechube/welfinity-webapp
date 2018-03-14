@@ -21,21 +21,19 @@ class ExpressCustomServer {
 
     createServer(){
            
-                //setting of the express options 
-                    //views and render
+
                 var self = this;
-                //app.set('views', path.join(__dirname, 'views'));
-                //app.use(express.static(path.join(__dirname, 'public')));
-                //app.set('view engine', 'pug');
+
                     
-                app.use(this.session({
+               /* app.use(this.session({
                     secret: 'secret cat in the hot hat',
                     // create new redis store.
                     store: this.redisStore,
                     saveUninitialized: true,
                     resave: false,
                     cookie: { maxAge: 6000000 , secure: false }
-                }));
+                }));*/
+                
                     //body parsing 
                 app.use(bodyParser.urlencoded({ extended: false }))
                 app.use(bodyParser.json());

@@ -4,6 +4,7 @@ const RedisHandler              = require('./modules/RedisHandler');
 const ExpressCustomServer       = require('./modules/ExpressCustomServer') ;
 const DatabaseMarketsHandler    = require('./modules/MarketsHandler');
 const DatabaseProductsHandler   = require('./modules/ProductsHandler');
+const DatabaseUsersHandler      = require('./modules/UserHandler');
 const WelfinityServicesHandler  = require('./modules/WelfinityServicesHandler');
 const session                   = require('express-session');
 
@@ -21,7 +22,7 @@ const session                   = require('express-session');
          spider.allGreen = false;
     });
 
-//Redis Store Creation and MArketsHandlerConnection
+//Redis Store Creation and MarketsHandlerConnection
     spider.on(spider.availableMessages.REDIS_CLIENT_OK,function(){
         console.log("Redis Client and Store OK");
         redisHandler.createStore();
@@ -45,8 +46,19 @@ const session                   = require('express-session');
         
     });
 
-  spider.on(spider.availableMessages.DBHANDLER_PRODUCT_CONNECTION_OK,function(){
-        console.log("Connection to Mongo PRODUCT DB OK");
+    spider.on(spider.availableMessages.DBHANDLER_PRODUCT_CONNECTION_OK,function(){
+        console.log("Connection to Mongo PRODUCT  DB OK");
+        
+        if(!spider.getModule('dbUsersHandler') || !spider.getModule('dbUsersHandler') .isConnected()){
+            var dbUsersHandler = new DatabaseUsersHandler(spider);
+            spider.addModule('dbUsersHandler',dbUsersHandler);
+            dbUsersHandler.connectDB();
+        }
+ 
+        
+    });
+  spider.on(spider.availableMessages.DBHANDLER_USER_CONNECTION_OK,function(){
+        console.log("ALL Modules Initiated - Starting Server");
 
 
 

@@ -1,7 +1,8 @@
 //Site Route repository
 const	parseurl 		= require('parseurl');
-const	PassportHandler = require('./PassportHandler');		
+const	PassportHandler = require('../modules/PassportHandler');		
 const 	flash         	= require('express-flash');
+const   jwt 			= require("jsonwebtoken"); 
 const 	allGreen		= false;
 
 
@@ -49,113 +50,82 @@ self.router.all("*", function (req, res, next) {
 			res.status(404);
 			res.send('Not found');
 		}else{
-			// to redirect at original url after successful login
-			if(!req.user && req.session.returnHere == null){
-				console.log("not in session");
-				req.session.returnHere = req.url;
-			}else{
-
-				var views = req.session.views
-
-				if (!views) {
-					views = req.session.views = {}
-					console.log("First Time view " + req.session)
-				}
-
-				// get the url pathname
-				var pathname = parseurl(req).pathname
-
-				// count the views
-				views[pathname] = (views[pathname] || 0) + 1
-				console.log("View number " + pathname + " " + views.toString() + " " + views[pathname]);
-
-			}
 			
 			next();
 		}
 	});
 
 	
-	//About Page Route GET
-	self.router.get('/about', function (req, res) {
-		console.log("this is a test");
+	self.router.get("/secret", self.passportHandler.passport.authenticate('jwt', { session: false }), function(req, res){
+		res.json({message: "Success! You can not see this without a token"});
+	  });
+	  
 
-		res.send('im the about page!' + 'you viewed this page ');
-	});
 
-	// Insert User Page Route GET
-	self.router.get('/insert',loggedIn, function (req, res) {
-
-		res.render('insert',{title: 'Insert User',message: req.session.views['/insert'] });
-		
-	});
 
 	//Insert User Page Route POST
-  	self.router.post('/insert',loggedIn,function(req, res) {
+  	self.router.post('/insert',function(req, res) {
 	
-	var promisedResults				= new Array();
-	var promisedUser 				= self.marketsHandler.createUser(req.body.userName,req.body.userEmail,req.body.userPassword);
-	var promisedUsersList 	 		= self.marketsHandler.getAllUser();
+		console.log("POST INSERT");
 	
-	
-	function printInsertResult(newUser, allUsers){
-		res.render('insertSuccess',{newUser: newUser, users: allUsers});
-	};
-
-	
-
-	promisedUser.then(function(promisedUser){
-				promisedResults.push(promisedUser);
-				promisedUsersList.then(function(allUsers){
-					allUsers.push(promisedResults[0]);
-					promisedResults.push(allUsers);
-					printInsertResult(promisedResults[0],promisedResults[1]);
-				});
-				}).catch(function(err){
+	var promisedUser=self.dbUsersHandler.createUser(req.body.userName,req.body.userEmail,req.body.userPassword);
+		promisedUser.then(function(createdUSer){
+				res.send("User created"+createdUSer);
+		}
+	).catch(function(err){
 		console.log(err);
 	});
-    
-  })
+	 
+	   
+  });
 
 	//List of Users Page GET
 	self.router.get('/users',function(req,res){
-		
-		var promisedUsersList = self.marketsHandler.getAllUser();
-
+		console.log("userName =" +req.query.userName);
 		function showUsers(allUsers){
 			console.log(allUsers);
 			//res.render('userManagement',{users: allUsers});
 			res.json(allUsers);
-		};
+		}
 
+		if(req.query.userName == null){
+			var promisedUsersList = self.dbUsersHandler.getAllUser();
+			promisedUsersList.then(function(allUsers){
 
-		promisedUsersList.then(function(allUsers){
+					showUsers(allUsers);
+				
+			}).catch(function(err){
+			console.log(err)})
+			}else{
 
-				showUsers(allUsers);
-			
-		}).catch(function(err){
-		console.log(err)});
+				var promisedUser = self.dbUsersHandler.findUserByName(req.query.userName);
 
+				promisedUser.then(function(foundUser){
+
+					//showUsers([foundUser]);
+					if(self.dbUsersHandler.validPassword(foundUser[0].userPassword,req.query.userPassword)){
+						var payload = {
+							id: foundUser[0].userName
+						};
+						var token = jwt.sign(payload, process.env.JWTSECRET,{
+							expiresIn: 60 // in seconds
+						  });
+						res.json({
+							token: token
+						});
+					}else{
+						res.status(403).send({
+							error: 'Incorrect password'
+						  });
+					}
+				
+			}).catch(function(err){
+			console.log(err)})
+			}
 
 
 	});
 
-//Single User Page GET
-
-  self.router.get('/users/:user_id',loggedIn,function(req,res){
-	
-	function printFindResult(selectedUser){
-		console.log('Utente TROVATO '+selectedUser);
-		res.render('getUser',{user: selectedUser});
-	};
-
-	var promisedUser = self.marketsHandler.findUserById(req.params.user_id);
-
-	promisedUser.then(function(selectedUser){
-		printFindResult(selectedUser);
-	}).catch(function(err){console.log(err)});
-
-});
 
 	//Main Page Route GET
 	self.router.get('/',loggedIn,function (req, res) {
@@ -233,6 +203,7 @@ self.router.get('/product',function(req,res){
 
 
 
+
 //WIM SERVICE
 self.router.get('/wim',function(req, res) {
   
@@ -302,7 +273,8 @@ constructor(spider) {
 		this.marketsHandler         = this.spider.getModule('dbMarketsHandler');
 		this.welfinityservices      = this.spider.getModule('welfinityServicesHandler');
 		this.productHandler			= this.spider.getModule('dbProductsHandler');
-		this.passportHandler		= new PassportHandler(this.marketsHandler);
+		this.dbUsersHandler			= this.spider.getModule('dbUsersHandler');
+		this.passportHandler		= new PassportHandler(this.dbUsersHandler);
 		
 		//Passport configuration
 			//Passoport for authentication
