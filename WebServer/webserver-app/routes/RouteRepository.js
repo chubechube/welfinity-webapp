@@ -142,9 +142,10 @@ self.router.all("*", function (req, res, next) {
 		var promisedUser = self.dbUsersHandler.findUserByName(req.body.userName);
 
 		promisedUser.then(function(foundUser){
-
+			console.log(foundUser.length);
+			console.log(foundUser[0]);
 			//showUsers([foundUser]);
-			if(self.dbUsersHandler.validPassword(foundUser[0].userPassword,req.body.userPassword)){
+			if(foundUser.length===1&&self.dbUsersHandler.validPassword(foundUser[0].userPassword,req.body.userPassword)){
 				var payload = {
 					id: foundUser[0].userName
 				};

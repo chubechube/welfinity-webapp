@@ -3,6 +3,7 @@ import { AuthService } from '../Services/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
 
+
 @Component({
     selector: 'login',
     templateUrl: './login.component.html',
@@ -15,7 +16,8 @@ export class LoginComponent {
 
   constructor(private route: ActivatedRoute,
     private router: Router,
-    private auth: AuthService) {}
+    private auth: AuthService,
+    ) {}
  
      username : string
      password : string
@@ -31,12 +33,16 @@ export class LoginComponent {
 
   login() : void {
       
-   this.auth.login(this.username,this.password);
-   if(this.auth.loggedIn()){
-       console.log("I'm Here " );
-       console.log("return url "+this.returnUrl );
-    this.router.navigateByUrl(this.returnUrl);
-   }
+   this.auth.login(this.username,this.password).subscribe(result => {
+        if (result === true) {
+            
+            this.router.navigateByUrl(this.returnUrl);
+        } else {
+
+            console.log("Error")
+        }
+    });
+
   }
     
 }
