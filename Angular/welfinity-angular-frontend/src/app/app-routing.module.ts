@@ -1,17 +1,19 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes , CanActivate } from '@angular/router';
 
-
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { MarketsComponent } from './markets/markets.component';
-import { AggregationsComponent } from './aggregations/aggregations.component';
-import { MarketDetailComponent } from './market-detail/market-detail.component';
+import { AuthGuardService as AuthGuard } from './Services/auth-guard.service'
+import { DashboardComponent }     from './dashboard/dashboard.component';
+import { MarketsComponent }       from './markets/markets.component';
+import { AggregationsComponent }  from './aggregations/aggregations.component';
+import { MarketDetailComponent }  from './market-detail/market-detail.component';
+import { LoginComponent }         from './Login/login.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-  { path: 'dashboard', component: DashboardComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'dashboard', component: DashboardComponent ,canActivate: [AuthGuard]},
   { path: 'detail/:name', component: MarketDetailComponent },
-  { path: 'markets', component: MarketsComponent },
+  { path: 'markets', component: MarketsComponent ,canActivate: [AuthGuard] },
   { path: 'aggregations', component: AggregationsComponent }
 ];
 

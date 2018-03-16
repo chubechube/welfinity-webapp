@@ -6,7 +6,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { MessageService } from '../Services/message.service';
 
 const httpOptions = {
-    //headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+
     headers: new HttpHeaders({ 'Content-Type': 'application/vnd.ms-excel' })
   };
   
@@ -14,6 +14,7 @@ const httpOptions = {
 export class WelfinityscriptsService {
    private WIM_createMarkets_Url = 'http://94.23.179.229:3030/wim';
    private  WDM_Extract_and_Aggregate_Url = 'http://94.23.179.229:3030/wdm';
+   private  WDM_Secret_Url = 'http://94.23.179.229:3030/secret';
   
     constructor(
       private http: HttpClient,
@@ -62,7 +63,11 @@ export class WelfinityscriptsService {
         responseType: "blob"
       });
   }
-  
+    WDM_Secret() {
+      const url = `${this.WDM_Secret_Url}`;
+      console.log("URL "+url);
+      this.http.get(url).subscribe(data => console.log(data));
+    }
     private log(message: string) {
       this.messageService.add('WelfinityScriptsService: ' + message);
     }

@@ -10,7 +10,7 @@
   <input  #searchBox id="search-box" (keyup)="search(searchBox.value)" [(ngModel)]="mybox" />
 
   <button class="Aggregate" title="Aggregate Data"
-      (click)="WDM_Extract_and_Aggregate_get_file(searchBox.value)">Aggegate</button>
+      (click)="WDM_Extract_and_Aggregate_get_file(searchBox.value)">Aggregate</button>
   
   <ul class="search-result">
     <li *ngFor="let product of products$ | async" >

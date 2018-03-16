@@ -31,7 +31,8 @@ self.router.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
 
     // Request headers you wish to allow
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+	res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+	
 
     // Set to true if you need the website to include cookies in the requests sent
     // to the API (e.g. in case you use sessions)
@@ -66,8 +67,6 @@ self.router.all("*", function (req, res, next) {
 	//Insert User Page Route POST
   	self.router.post('/insert',function(req, res) {
 	
-		console.log("POST INSERT");
-	
 	var promisedUser=self.dbUsersHandler.createUser(req.body.userName,req.body.userEmail,req.body.userPassword);
 		promisedUser.then(function(createdUSer){
 				res.send("User created"+createdUSer);
@@ -79,7 +78,7 @@ self.router.all("*", function (req, res, next) {
 	   
   });
 
-	//List of Users Page GET
+	//List of Users Pageor single user info GET
 	self.router.get('/users',function(req,res){
 		console.log("userName =" +req.query.userName);
 		function showUsers(allUsers){
@@ -133,25 +132,36 @@ self.router.all("*", function (req, res, next) {
 		
 	});
 
-	//Login  Page Route GET
-	self.router.get('/login', function (req, res) {
-		if(!req.session || req.session.returnHere == null){
-			req.session.returnHere = '/';
-		}
-		res.render('login', { title: 'Login Page' })
-	});
+	
 
 
 	//Login Page Route POST
-	self.router.post('/login',self.passportHandler.passport.authenticate('local', { failureFlash: 'Invalid username or password.' , failureRedirect: '/login' }),
-  function(req, res) {
-	
+	self.router.post('/login',function(req, res) {
+		console.log("userName "+req.body.userName);
+		console.log("userPassword "+req.body.userPassword);
+		var promisedUser = self.dbUsersHandler.findUserByName(req.body.userName);
 
-	//in case of successuful login the original url must be reset
-	var goUrl = req.session.returnHere;
-	req.session.returnHere = null;
-	
-    res.redirect(goUrl);
+		promisedUser.then(function(foundUser){
+
+			//showUsers([foundUser]);
+			if(self.dbUsersHandler.validPassword(foundUser[0].userPassword,req.body.userPassword)){
+				var payload = {
+					id: foundUser[0].userName
+				};
+				var token = jwt.sign(payload, process.env.JWTSECRET,{
+					expiresIn: 60 // in seconds
+				});
+				res.json({
+					autorization_token: token
+				});
+			}else{
+				res.status(403).send({
+					error: 'Incorrect password'
+				});
+			}
+		
+	}).catch(function(err){
+	console.log(err)})
   });
 
 
@@ -173,14 +183,8 @@ self.router.get('/product',function(req,res){
 	var promisedProductList = null;
 	console.log("Product Code "+productCode);
 
+	promisedProductList = self.productHandler.findMultipleProductByID(productCode);
 	
-	
-			promisedProductList = self.productHandler.findMultipleProductByID(productCode);
-	
-	
-	
-
-
 	function showProducts(allProducts){
 		res.json(allProducts);
 	}

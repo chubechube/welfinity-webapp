@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Market } from '../markets/market';
-import { MarketService } from '../Services/market.service';
+import { WelfinityscriptsService } from '../Services/welfinityscripts.service'
 
 
 @Component({
@@ -12,14 +11,14 @@ export class DashboardComponent implements OnInit {
 
  // markets: Market[] = [];
 
-  constructor(private marketService: MarketService) { }
+  constructor(private welfinityService: WelfinityscriptsService) { }
 
   ngOnInit() {
    // this.getMarkets();
   }
 
-  getMarkets(): void {
-    //this.marketService.getMarkets()
-   //   .subscribe(markets => this.markets = markets.slice(1, 5));
+  secret(): void {
+    console.log("Secret Request");
+    this.welfinityService.WDM_Secret();
   }
 }

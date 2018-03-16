@@ -13,15 +13,23 @@ import { MarketSearchComponent } from './market-search/market-search.component';
 import { AggregationsComponent } from './aggregations/aggregations.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { ProductSearchComponent } from './product-search/product-search.component';
+import { LoginComponent }         from './Login/login.component';
 
 //Services
 import { MarketService } from './Services/market.service';
 import { MessageService } from './Services/message.service';
-import {WelfinityscriptsService} from './Services/welfinityscripts.service';
-import {ProductsService} from './Services/products.service';
+import { WelfinityscriptsService } from './Services/welfinityscripts.service';
+import  {ProductsService } from './Services/products.service';
+import { AuthService } from './Services/auth.service';
+import { AuthGuardService } from './Services/auth-guard.service';
 
+//Interceptors
+import { TokenInterceptor } from './Interceptors/token.interceptor';
+
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './/app-routing.module';
+import { HttpModule } from '@angular/http';
 
 
 import {BrowserModule} from '@angular/platform-browser';
@@ -40,7 +48,8 @@ import {
   MatProgressBarModule,
   MatCardModule,
   MatNativeDateModule,
-  MatInputModule
+  MatInputModule,
+  MatProgressSpinnerModule
   
 } from '@angular/material';
 
@@ -60,7 +69,8 @@ import {
     MatDatepickerModule,
     MatFormFieldModule,
     MatNativeDateModule,
-    MatInputModule
+    MatInputModule,
+    MatProgressSpinnerModule
   ],
   exports: [
     BrowserModule,
@@ -74,7 +84,8 @@ import {
     MatDatepickerModule,
     MatFormFieldModule,
     MatNativeDateModule,
-    MatInputModule
+    MatInputModule,
+    MatProgressSpinnerModule
   ],
 
 
@@ -88,6 +99,7 @@ export class MaterialModule {}
     FormsModule,
     AppRoutingModule,
     HttpClientModule,
+    HttpModule,
     MaterialModule,
     BrowserAnimationsModule,
     FormsModule,
@@ -102,10 +114,15 @@ export class MaterialModule {}
     MarketSearchComponent,
     AggregationsComponent,
     ProductDetailComponent,
-    ProductSearchComponent
+    ProductSearchComponent,
+    LoginComponent
   ],
   entryComponents: [DashboardComponent],
-  providers: [ MarketService, MessageService ,WelfinityscriptsService,ProductsService ],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: TokenInterceptor,
+    multi: true
+  }, MarketService, MessageService ,WelfinityscriptsService,ProductsService,AuthService,AuthGuardService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
