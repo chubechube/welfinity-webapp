@@ -8,14 +8,6 @@ const 	allGreen		= false;
 
 
 
-function loggedIn(req, res, next) {
-    if (req.user) {
-        next();
-    } else {
-        res.redirect('/login');
-    }
-}
-
 
 function setRoutes(self){
 var self  = self;
@@ -43,17 +35,12 @@ self.router.use(function (req, res, next) {
 });
 
 self.router.all("*", function (req, res, next) {
-		console.log('Someone made a request!');
+		console.log('Someone made a request! '+req.toString());
 		console.log('%s %s %s', req.method, req.url, req.path);
 		
-		if(!self.spider.allGreen)
-		{
-			res.status(404);
-			res.send('Not found');
-		}else{
-			
+				
 			next();
-		}
+		
 	});
 
 	
@@ -79,7 +66,7 @@ self.router.all("*", function (req, res, next) {
   });
 
 	//List of Users Pageor single user info GET
-	self.router.get('/users',function(req,res){
+	self.router.get('/users',self.passportHandler.passport.authenticate('jwt', { session: false }),function(req,res){
 		console.log("userName =" +req.query.userName);
 		function showUsers(allUsers){
 			console.log(allUsers);
@@ -107,7 +94,7 @@ self.router.all("*", function (req, res, next) {
 							id: foundUser[0].userName
 						};
 						var token = jwt.sign(payload, process.env.JWTSECRET,{
-							expiresIn: 60 // in seconds
+							expiresIn: 600 // in seconds
 						  });
 						res.json({
 							token: token
@@ -126,11 +113,7 @@ self.router.all("*", function (req, res, next) {
 	});
 
 
-	//Main Page Route GET
-	self.router.get('/',loggedIn,function (req, res) {
-			res.render('index', { title: 'Hey', message: 'Hello there! ' + req.session.views['/'] + ' times' });
-		
-	});
+
 
 	
 
@@ -169,15 +152,17 @@ self.router.all("*", function (req, res, next) {
 //WDM SERVICE
 self.router.get('/wdm',function(req, res) {
   
-	console.log("Query "+req.query.productCode);
-	self.welfinityservices.WDM_Extract_And_Aggregate(req,res);
+	
+	self.welfinityservices.WDM_Extract_And_Aggregate_Multiple(req,res);
   
 
 });
 
+
+
 //Product Service
 
-self.router.get('/product',function(req,res){
+self.router.get('/product',self.passportHandler.passport.authenticate('jwt', { session: false }),function(req,res){
 	console.log("Query "+req.query.toString());
 	var productCode = req.query.code;
 	
@@ -210,7 +195,7 @@ self.router.get('/product',function(req,res){
 
 
 //WIM SERVICE
-self.router.get('/wim',function(req, res) {
+self.router.get('/wim',self.passportHandler.passport.authenticate('jwt', { session: false }),function(req, res) {
   
 
 	self.welfinityservices.startWimService(res);
@@ -221,7 +206,7 @@ self.router.get('/wim',function(req, res) {
 
 //List of Markets Page GET
 
-	self.router.get('/markets',function(req,res){
+	self.router.get('/markets',self.passportHandler.passport.authenticate('jwt', { session: false }),function(req,res){
 		console.log("Query "+req.query.toString());
 		var marketName = req.query.name;
 		var promisedMarketList = null;

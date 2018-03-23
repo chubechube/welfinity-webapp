@@ -30,7 +30,7 @@ export class AuthService {
      
   
       return this.http.post(this.tokenEndpoint, body, options).catch((error): any => {
-        console.log('************* ERROR Response', error);
+       
         this.messageService.add("Authentication Error");
         return Observable.throw(error);
     }).map((res : Response) =>  {

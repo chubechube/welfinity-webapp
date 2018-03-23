@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import {CdkTableModule} from '@angular/cdk/table';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {DomSanitizer} from '@angular/platform-browser';
-
+import {FlexLayoutModule} from "@angular/flex-layout";
 
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -49,8 +49,9 @@ import {
   MatCardModule,
   MatNativeDateModule,
   MatInputModule,
-  MatProgressSpinnerModule
-  
+  MatProgressSpinnerModule,
+  MatTableModule,
+  MatGridListModule
 } from '@angular/material';
 
 
@@ -70,7 +71,9 @@ import {
     MatFormFieldModule,
     MatNativeDateModule,
     MatInputModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatTableModule,
+    MatGridListModule
   ],
   exports: [
     BrowserModule,
@@ -85,7 +88,9 @@ import {
     MatFormFieldModule,
     MatNativeDateModule,
     MatInputModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatTableModule,
+    MatGridListModule,
   ],
 
 
@@ -103,7 +108,8 @@ export class MaterialModule {}
     MaterialModule,
     BrowserAnimationsModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FlexLayoutModule
   ],
   declarations: [
     AppComponent,

@@ -23,17 +23,7 @@ class ExpressCustomServer {
            
 
                 var self = this;
-
-                    
-               /* app.use(this.session({
-                    secret: 'secret cat in the hot hat',
-                    // create new redis store.
-                    store: this.redisStore,
-                    saveUninitialized: true,
-                    resave: false,
-                    cookie: { maxAge: 6000000 , secure: false }
-                }));*/
-                
+                           
                     //body parsing 
                 app.use(bodyParser.urlencoded({ extended: false }))
                 app.use(bodyParser.json());

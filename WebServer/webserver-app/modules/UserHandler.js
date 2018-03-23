@@ -116,7 +116,7 @@ class UserHandler  {
 	getAllUser(success,err){
 		var UserModel = this.connection.model('User',this.userSchema);
 		return UserModel.find(function(err,users){
-			if(err) return console.log(err);
+			if(err) {console.log(err); return null;}
 			return users;
 		}).exec();
 	}

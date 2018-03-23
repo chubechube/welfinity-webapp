@@ -4,6 +4,7 @@ import { of } from 'rxjs/observable/of';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 import { MessageService } from '../Services/message.service';
+import {HttpParams} from "@angular/common/http";
 
 const httpOptions = {
 
@@ -14,7 +15,7 @@ const httpOptions = {
 export class WelfinityscriptsService {
    private WIM_createMarkets_Url = 'http://94.23.179.229:3030/wim';
    private  WDM_Extract_and_Aggregate_Url = 'http://94.23.179.229:3030/wdm';
-   private  WDM_Secret_Url = 'http://94.23.179.229:3030/secret';
+
   
     constructor(
       private http: HttpClient,
@@ -49,27 +50,23 @@ export class WelfinityscriptsService {
     );
   }
    
-  WDM_Extract_and_Aggregate(productCode: string): Observable<String> {
-    const url = `${this.WDM_Extract_and_Aggregate_Url}/?productCode=${productCode}`;
-    return this.http.get<String>(url).pipe(
-      tap(_ => this.log(`Created  market`)),
-      catchError(this.handleError<String>(`Create Market`))
-    );
-  }
  
-  WDM_Extract_and_Aggregate_GetFile(productCode: string,startdate: String,enddate: String): Observable<Blob> {
-    const url = `${this.WDM_Extract_and_Aggregate_Url}/?productCode=${productCode}&startdate=${startdate}&enddate=${enddate}`;
-    return this.http.get(url, {
-        responseType: "blob"
+
+  WDM_Extract_and_Aggregate_Multiple(params: HttpParams): Observable<Blob> {
+    
+     return this.http.get(this.WDM_Extract_and_Aggregate_Url,{
+        responseType: "blob",
+        params
       });
   }
-    WDM_Secret() {
-      const url = `${this.WDM_Secret_Url}`;
-      console.log("URL "+url);
-      this.http.get(url).subscribe(data => console.log(data));
-    }
+ 
     private log(message: string) {
       this.messageService.add('WelfinityScriptsService: ' + message);
     }
   }
   
+  export interface ProductElement {
+    aic: string;
+    description: string;
+   
+  }

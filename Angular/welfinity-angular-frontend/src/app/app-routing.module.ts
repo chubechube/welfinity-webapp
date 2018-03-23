@@ -12,9 +12,9 @@ const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'dashboard', component: DashboardComponent ,canActivate: [AuthGuard]},
-  { path: 'detail/:name', component: MarketDetailComponent },
+  { path: 'detail/:name', component: MarketDetailComponent, canActivate: [AuthGuard]},
   { path: 'markets', component: MarketsComponent ,canActivate: [AuthGuard] },
-  { path: 'aggregations', component: AggregationsComponent }
+  { path: 'aggregations', component: AggregationsComponent,canActivate: [AuthGuard] }
 ];
 
 @NgModule({

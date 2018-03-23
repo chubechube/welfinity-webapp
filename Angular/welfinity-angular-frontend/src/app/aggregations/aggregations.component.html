@@ -1,42 +1,72 @@
-<h2>Welfinity Aggregation Service</h2>
 
+<h2>Welfinity Aggregation Service</h2>
 <div *ngIf="showProgressBar">
   <mat-progress-bar   mode="indeterminate"></mat-progress-bar>
 </div>
 
-
-<div id="search-component">
-  <h4>Product Search</h4>
-  <input  #searchBox id="search-box" (keyup)="search(searchBox.value)" [(ngModel)]="mybox" />
-
-  <button class="Aggregate" title="Aggregate Data"
-      (click)="WDM_Extract_and_Aggregate_get_file(searchBox.value)">Aggregate</button>
+<div fxLayout="row" fxLayoutAlign=" start" >
   
-  <ul class="search-result">
-    <li *ngFor="let product of products$ | async" >
-      <a >
-       <a (click)="enterProductCode(product.FDI_0001)"> <span class="badge"> {{product.FDI_0001}}</span>  {{product.FDI_0004}}</a>      
-      </a>
-    </li> 
-  </ul>
-</div>
+      <div id="search-component">
+        <h4>Product Search</h4>
+        <input  #searchBox id="search-box" (keyup)="search(searchBox.value)" [(ngModel)]="mybox" />
 
-<div>
-    <mat-form-field>
-        <input matInput [matDatepicker]="picker1" placeholder="Input & change events 1"
-               (dateInput)="addEvent1('input', $event)" (dateChange)="addEvent1('change', $event)">
-        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-        <mat-datepicker #picker1></mat-datepicker>
-      </mat-form-field>
-</div>
+         <button class="Add" title="Add Product to Table"
+            (click)="WDM_Extract_and_Aggregate_Multiple()">Aggregate</button>
+        
+        <ul class="search-result">
+          <li *ngFor="let product of products$ | async" >
+            <a >
+            <a (click)="enterProductCode(product.FDI_0001);addProductToTable(product.FDI_0001,product.FDI_0004)"> <span class="badge"> {{product.FDI_0001}}</span>  {{product.FDI_0004}}</a>      
+            </a>
+          </li> 
+        </ul>
+
+        <h4>Dates Interval</h4>
+          <mat-form-field>
+              <input matInput [matDatepicker]="picker1" placeholder="Start Date"
+                    (dateInput)="addStartDate('input', $event)" (dateChange)="addStartDate('change', $event)">
+              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+              <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
 
 
 
-<div>
-    <mat-form-field>
-        <input matInput [matDatepicker]="picker2" placeholder="Input & change events 2"
-               (dateInput)="addEvent2('input', $event)" (dateChange)="addEvent2('change', $event)">
-        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-        <mat-datepicker #picker2></mat-datepicker>
-      </mat-form-field>
-</div>
+
+
+          <mat-form-field>
+              <input matInput [matDatepicker]="picker2" placeholder="End Date"
+                    (dateInput)="addEndDate('input', $event)" (dateChange)="addEndDate('change', $event)">
+              <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+              <mat-datepicker #picker2></mat-datepicker>
+            </mat-form-field>
+      </div>
+  
+    <div table>
+
+    <div class="example-container mat-elevation-z8">
+        <div class="example-header">
+          <mat-form-field>
+            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+          </mat-form-field>
+        </div>
+      
+        <mat-table #table [dataSource]="dataSource">
+      
+          <!-- Position Column -->
+          <ng-container matColumnDef="aic">
+            <mat-header-cell *matHeaderCellDef> AIC </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.aic}} </mat-cell>
+          </ng-container>
+      
+          <!-- Name Column -->
+          <ng-container matColumnDef="description">
+            <mat-header-cell *matHeaderCellDef> DESCRIPTION </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.description}} </mat-cell>
+          </ng-container>
+      
+           <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+      </div>
+    </div>
+  </div>

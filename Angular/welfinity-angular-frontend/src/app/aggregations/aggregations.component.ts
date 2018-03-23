@@ -4,7 +4,8 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { of } from 'rxjs/observable/of';
 import {FormControl} from '@angular/forms';
-
+import {MatTableDataSource} from '@angular/material';
+import {HttpParams} from "@angular/common/http";
 import { Product } from '../Products/products';
 import { ProductsService } from '../Services/products.service';
 import { saveAs } from 'file-saver/FileSaver';
@@ -37,9 +38,13 @@ export class AggregationsComponent implements OnInit {
   lastDateInput: Date | null;
   lastDateChange: Date | null;
   dateCtrl = new FormControl();
-  startdate: String | null;
-  enddate:  String | null;
+  startdate: string | null;
+  enddate:  string | null;
 
+  displayedColumns = ['aic', 'description'];
+  dataSource = new MatTableDataSource();
+  product_table_item: ProductElement[] =[];
+ 
   private searchTerms = new Subject<string>();
 
   constructor(private productsService: ProductsService, private welfinityscriptsService: WelfinityscriptsService ) { }
@@ -64,10 +69,21 @@ export class AggregationsComponent implements OnInit {
   }
 
 
-  WDM_Extract_and_Aggregate_get_file(productCode: string){
+
+  WDM_Extract_and_Aggregate_Multiple(){
     this.showProgressBar = true;
-    
-    this.welfinityscriptsService.WDM_Extract_and_Aggregate_GetFile(productCode,this.startdate,this.enddate).subscribe(data => { var blob = new Blob([data], {type: 'application/vnd.ms-excel'});
+    var params = new HttpParams()
+  
+    for (var i = 0, len = this.product_table_item.length-1; i < len; i++) {
+     
+      params=params.append("productcodes[]",this.product_table_item[i].aic);
+     }
+
+     params=params.append("productcodes[]",this.product_table_item[this.product_table_item.length-1].aic);
+  
+     params=params.append("startdate",this.startdate);
+     params=params.append("enddate",this.enddate);
+    this.welfinityscriptsService.WDM_Extract_and_Aggregate_Multiple(params).subscribe(data => { var blob = new Blob([data], {type: 'application/vnd.ms-excel'});
     var filename = 'aggregated.xls';
     
     saveAs(blob, filename);
@@ -76,21 +92,37 @@ export class AggregationsComponent implements OnInit {
     
 
   }
-
-
-  addEvent1(type: string, event: MatDatepickerInputEvent<Date>) {
+  addStartDate(type: string, event: MatDatepickerInputEvent<Date>) {
     this.startdate = moment(event.value).format('DD[/]MM[/]YYYY');
-    console.log("MOMENT DATE " + this.startdate);
+
   }
 
-  addEvent2(type: string, event: MatDatepickerInputEvent<Date>) {
+  addEndDate(type: string, event: MatDatepickerInputEvent<Date>) {
     this.enddate = moment(event.value).format('DD[/]MM[/]YYYY');
-    console.log("MOMENT DATE " + this.enddate);
+
   }
 
   enterProductCode(productCode: string) {
     console.log("Entered Value = "+productCode);
     this.mybox=productCode;
     }
+  
+    applyFilter(filterValue: string) {
+      filterValue = filterValue.trim(); // Remove whitespace
+      filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+      this.dataSource.filter = filterValue;
+    }
+
+    addProductToTable(productCode: string, description: string){
+     this.product_table_item.push({aic: productCode, description: description});
+     this.dataSource.data=this.product_table_item;
+    }
 
 }
+
+export interface ProductElement {
+  aic: string;
+  description: string;
+ 
+}
+
