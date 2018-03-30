@@ -14,7 +14,7 @@ class MarketsHandler  {
 		this.self				= this;
 		this.Schema 			= mongoose.Schema;
 		this.marketModel		= null;
-		this.marketSchema 		= new this.Schema({name: String}, { id: true });
+		this.marketSchema 		= new this.Schema({name: String}, {codici: Array},{country: String},{description: String},{ id: true });
 	
 	}
 
@@ -32,7 +32,7 @@ class MarketsHandler  {
 			this.db.createConnection(uri,options).then(
 				conn => {
 					console.log("URI MARKET "+uri);
-					self.marketModel=conn.model("Market",self.marketSchema);
+					self.marketModel=conn.model("italianmarkets",self.marketSchema);
 					self.connected = true;
 					self.spider.emit(self.spider.availableMessages.DBHANDLER_MARKET_CONNECTION_OK);
 					});
@@ -44,6 +44,11 @@ class MarketsHandler  {
 		console.log("Find Market Function in Market Handler called with Name "+marketName);
 			return this.marketModel.find({name : marketName}).exec();
 		}
+
+	deleteMarketByName(marketName){
+		console.log("DELETE REQUEST for " + marketName);
+		return this.marketModel.remove({name : marketName}).exec();
+	}
 
 	getAllMarkets(){
 			return this.marketModel.find(function(err,users){

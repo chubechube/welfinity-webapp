@@ -19,6 +19,9 @@ export class MarketsComponent implements OnInit {
   selectedMarket: Market;
   showProgressBar: boolean;
   requetResult: String;
+  displayedColumns = ['country','name', 'description','action_edit','action_delete'];
+  highlightedRows = [];
+  hoverindex=0;
 
 
   constructor(private marketService: MarketService, private welfinityscriptsService: WelfinityscriptsService ) { }
@@ -42,7 +45,31 @@ export class MarketsComponent implements OnInit {
   
   }
 
+  onRowHover(row){
+
+    this.hoverindex = row;
+  }
+
+  onRowLeave(){
+
+    this.hoverindex = 0;
+  }
+
+  onRowClicked(row) {
+   
+    this.highlightedRows.push(row);
+}
+
  
+onEditClicked(element){
+  console.log("EDIT BUTTON" + element.name);
+}
+
+onDeleteClicked(element){
+  console.log("DELETE BUTTON "+ element.name);
+  this.marketService.deleteMarket(element.name).subscribe(data => {this.requetResult =  data['result'];   console.log('delete result ' + this.requetResult)});
+}
+
 
   add(name: string): void {
     name = name.trim();

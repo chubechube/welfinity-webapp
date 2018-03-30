@@ -17,8 +17,5 @@ export class DashboardComponent implements OnInit {
    // this.getMarkets();
   }
 
-  secret(): void {
-    console.log("Secret Request");
-    this.welfinityService.WDM_Secret();
-  }
+  
 }

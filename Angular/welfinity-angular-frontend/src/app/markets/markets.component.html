@@ -4,19 +4,44 @@
   <mat-progress-bar   mode="indeterminate"></mat-progress-bar>
 </div>
 
-<ul class="markets">
-  <li *ngFor="let market of markets">
-    <a routerLink="/detail/{{market.name}}">
-    <span class="badge">{{market._id}}</span>  {{market.name}}
-    </a>
-  </li>
-</ul>
-<button mat-button color="CreateMarket" (click)="WIM_createMarket()" >WIM</button>
-<button mat-button color="CreateMarket" (click)="WDM_Extract_and_Aggregate()" >WDM</button>
-<input #productCode
-(keyup.enter)="WDM_Extract_and_Aggregate(productCode.value)"
->
+ <mat-table   #table [dataSource]="markets">
+          <!-- Country Column -->
+          <ng-container class="search-result" matColumnDef="country">
+              <mat-header-cell *matHeaderCellDef> Country </mat-header-cell>
+              <mat-cell *matCellDef="let element" > {{element.country}} </mat-cell>
+            </ng-container>
+      
+          <!-- Name Column -->
+          <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+          </ng-container>
+      
+          <!-- Description Column -->
+          <ng-container matColumnDef="description">
+            <mat-header-cell *matHeaderCellDef> Description </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.description}} </mat-cell>
+          </ng-container>
+      
+          <!-- Action Edit Column -->
+          <ng-container matColumnDef="action_edit">
+            <mat-header-cell *matHeaderCellDef> Edit </mat-header-cell>
+            <mat-cell *matCellDef="let element"> <button mat-raised-button (click)="onEditClicked(element)">Edit</button > </mat-cell>
+          </ng-container>
+          
+           <!-- Action Delete Column -->
+           <ng-container matColumnDef="action_delete">
+            <mat-header-cell *matHeaderCellDef> Delete </mat-header-cell>
+            <mat-cell *matCellDef="let element"> <button mat-raised-button (click)="onDeleteClicked(element)">Delete</button> </mat-cell>
+          </ng-container>
+                
 
-<button (click)="WDM_Extract_and_Aggregate_get_file(productCode.value)">Add</button>
+
+          
+           <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row  *matRowDef="let row;  columns: displayedColumns;"   [style.background]="row == hoverindex ? 'lightblue' : ''"  (mouseover)="onRowHover(row)" (mouseleave)="onRowLeave()" (click)="onRowClicked(row)"></mat-row>
+
+        </mat-table>
+
 
 <app-market-search></app-market-search>

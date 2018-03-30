@@ -70,7 +70,6 @@ self.router.all("*", function (req, res, next) {
 		console.log("userName =" +req.query.userName);
 		function showUsers(allUsers){
 			console.log(allUsers);
-			//res.render('userManagement',{users: allUsers});
 			res.json(allUsers);
 		}
 
@@ -203,10 +202,18 @@ self.router.get('/wim',self.passportHandler.passport.authenticate('jwt', { sessi
 
 });
 
+self.router.delete('/markets',self.passportHandler.passport.authenticate('jwt', { session: false }),function(req, res) {
+  
 
+	self.marketsHandler.deleteMarketByName(req.query.name).then(console.log("PROMISED FULFFILED"));
+  
+
+});
 //List of Markets Page GET
 
 	self.router.get('/markets',self.passportHandler.passport.authenticate('jwt', { session: false }),function(req,res){
+
+	
 		console.log("Query "+req.query.toString());
 		var marketName = req.query.name;
 		var promisedMarketList = null;

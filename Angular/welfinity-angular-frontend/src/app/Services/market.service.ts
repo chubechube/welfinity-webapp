@@ -78,12 +78,11 @@ addMarket (market: Market): Observable<Market> {
 
 
 /** DELETE: delete the market from the server */
-deleteMarket (market: Market | string): Observable<Market> {
-  const id = typeof market === 'string' ? market : market.id;
-  const url = `${this.marketsUrl}/${id}`;
-
-  return this.http.delete<Market>(url, httpOptions).pipe(
-    tap(_ => this.log(`deleted market id=${id}`)),
+deleteMarket (market_name : string): Observable<Market> {
+  const url = `${this.marketsUrl}/?name=${market_name}`;
+  this.log("MARKET SERVICE "+url);
+  return this.http.delete<Market>(url).pipe(
+    tap(_ => this.log(`deleted market id`)),
     catchError(this.handleError<Market>('deleteMarket'))
   );
 }
@@ -95,7 +94,7 @@ searchMarkets(term: string): Observable<Market[]> {
     return of([]);
   }
   return this.http.get<Market[]>(`${this.marketsUrl}?name=${term}`).pipe(
-    tap(_ => this.log(`found markets matching "${term}"`)),
+    tap(_ => this.log(`found markets matching the word"${term}"`)),
     catchError(this.handleError<Market[]>('searchMarkets', []))
   );
 
