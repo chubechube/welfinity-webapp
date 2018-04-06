@@ -48,22 +48,11 @@ class MarketsHandler  {
 	
 	
 	findMarketByName(marketName){
-		console.log("Find Market Function in Market Handler called with Name "+marketName);
-			return this.marketModel.find({name : marketName}).exec();
+		var marketModel=this.connection.model("italianmarkets",this.marketSchema);
+		return marketModel.find({name : marketName}).exec();
 		}
 
-	/*createMarket(marketName,codici,country,description){
-		console.log("CREATION Market "+ marketName + " " + codici+ " " +country+ " " +description );
-		var marketModel=this.connection.model("italianmarkets",this.marketSchema);
-		var newMarket=new marketModel();
-		newMarket.name=marketName;
-		newMarket.country=country;
-		newMarket.description=description;	
-		newMarket.codici=codici;		
-		return newMarket.save();
-	}
 
-	*/
 
 	createMarket(jsonObject){
 		console.log("CREATION Market "+ JSON.stringify(jsonObject) );
