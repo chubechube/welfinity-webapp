@@ -56,7 +56,7 @@ private handleError<T> (operation = 'operation', result?: T) {
       return of([]);
     }
     return this.http.get<Product[]>(`${this.productsUrl}?code=${term}`).pipe(
-      tap(_ => this.log(`found products matching "${term}"`)),
+      tap(_ => this.log(`found products matching "${term} "`)),
       catchError(this.handleError<Product[]>('searchProducts', []))
     );
   

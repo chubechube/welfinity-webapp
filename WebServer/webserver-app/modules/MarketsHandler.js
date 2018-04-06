@@ -7,18 +7,25 @@ mongoose.Promise = global.Promise;
 class MarketsHandler  {
 	constructor(spider){
 		mongoose.Promise 		= global.Promise;
-
+		this.connection 		= null;
 		this.connected 			= false;
 		this.db		   			= mongoose;
 		this.spider 			= spider;
 		this.self				= this;
 		this.Schema 			= mongoose.Schema;
-		this.marketModel		= null;
-		this.marketSchema 		= new this.Schema({name: String}, {codici: Array},{country: String},{description: String},{ id: true });
-	
+		
+		this.initializeMarket();
 	}
 
-	
+	initializeMarket(){
+		this.marketSchema = new this.Schema({
+			name 		         : String,
+			codici		         : Array,
+			country	             : String,
+			description	         : String
+         
+		});
+	}
 	
 	isConnected() {
 		return this.connected;
@@ -32,7 +39,7 @@ class MarketsHandler  {
 			this.db.createConnection(uri,options).then(
 				conn => {
 					console.log("URI MARKET "+uri);
-					self.marketModel=conn.model("italianmarkets",self.marketSchema);
+					self.connection=conn;
 					self.connected = true;
 					self.spider.emit(self.spider.availableMessages.DBHANDLER_MARKET_CONNECTION_OK);
 					});
@@ -45,13 +52,36 @@ class MarketsHandler  {
 			return this.marketModel.find({name : marketName}).exec();
 		}
 
+	/*createMarket(marketName,codici,country,description){
+		console.log("CREATION Market "+ marketName + " " + codici+ " " +country+ " " +description );
+		var marketModel=this.connection.model("italianmarkets",this.marketSchema);
+		var newMarket=new marketModel();
+		newMarket.name=marketName;
+		newMarket.country=country;
+		newMarket.description=description;	
+		newMarket.codici=codici;		
+		return newMarket.save();
+	}
+
+	*/
+
+	createMarket(jsonObject){
+		console.log("CREATION Market "+ JSON.stringify(jsonObject) );
+		var marketModel=this.connection.model("italianmarkets",this.marketSchema);
+		var newMarket=new marketModel(jsonObject);
+		return newMarket.save();
+	}
+
+
 	deleteMarketByName(marketName){
 		console.log("DELETE REQUEST for " + marketName);
-		return this.marketModel.remove({name : marketName}).exec();
+		var marketModel=this.connection.model("italianmarkets",this.marketSchema);
+		return marketModel.remove({name : marketName}).exec();
 	}
 
 	getAllMarkets(){
-			return this.marketModel.find(function(err,users){
+		var marketModel=this.connection.model("italianmarkets",this.marketSchema);
+			return marketModel.find(function(err,users){
 				if(err) {return console.log(err);}
 				return users;
 			}).exec();

@@ -66,13 +66,15 @@ onEditClicked(element){
 }
 
 onDeleteClicked(element){
-  console.log("DELETE BUTTON "+ element.name);
-  this.marketService.deleteMarket(element.name).subscribe(data => {this.requetResult =  data['result'];   console.log('delete result ' + this.requetResult)});
+  console.log("DELETE BUTTON 4 "+ element.name);
+  this.marketService.deleteMarket(element.name).subscribe(data => this.marketService.getMarkets().subscribe(markets =>{ this.markets = markets}));
+  
+  
 }
 
 
   add(name: string): void {
-    name = name.trim();
+    name = name.trim(); 
     if (!name) { return; }
     this.marketService.addMarket({ name } as Market)
       .subscribe(market => {

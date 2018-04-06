@@ -44,11 +44,6 @@ self.router.all("*", function (req, res, next) {
 	});
 
 	
-	self.router.get("/secret", self.passportHandler.passport.authenticate('jwt', { session: false }), function(req, res){
-		res.json({message: "Success! You can not see this without a token"});
-	  });
-	  
-
 
 
 	//Insert User Page Route POST
@@ -132,7 +127,7 @@ self.router.all("*", function (req, res, next) {
 					id: foundUser[0].userName
 				};
 				var token = jwt.sign(payload, process.env.JWTSECRET,{
-					expiresIn: 60 // in seconds
+					expiresIn: 600 // in seconds
 				});
 				res.json({
 					autorization_token: token
@@ -171,6 +166,7 @@ self.router.get('/product',self.passportHandler.passport.authenticate('jwt', { s
 	promisedProductList = self.productHandler.findMultipleProductByID(productCode);
 	
 	function showProducts(allProducts){
+		
 		res.json(allProducts);
 	}
 
@@ -202,10 +198,34 @@ self.router.get('/wim',self.passportHandler.passport.authenticate('jwt', { sessi
 
 });
 
+//Add Market marketName,codici,country,description
+
+/*self.router.post('/markets',function(req, res) {
+	console.log("Market NAME "+JSON.stringify(req.body));
+	var promisedMarket=self.marketsHandler.createMarket(req.body.marketName,req.body.codici,req.body.country,req.body.description);
+	promisedMarket.then(function(createdMarket){
+				res.send("Market created"+createdMarket);
+		}
+	).catch(function(err){
+		console.log(err);
+	})});
+	*/
+
+	self.router.post('/markets',function(req, res) {
+		console.log("Market NAME "+JSON.stringify(req.body));
+		var promisedMarket=self.marketsHandler.createMarket(req.body);
+		promisedMarket.then(function(createdMarket){
+					res.send("Market created"+createdMarket);
+			}
+		).catch(function(err){
+			console.log(err);
+		})});
+//Delete Market
+
 self.router.delete('/markets',self.passportHandler.passport.authenticate('jwt', { session: false }),function(req, res) {
   
 
-	self.marketsHandler.deleteMarketByName(req.query.name).then(console.log("PROMISED FULFFILED"));
+	self.marketsHandler.deleteMarketByName(req.query.name).then(res.sendStatus(200));
   
 
 });

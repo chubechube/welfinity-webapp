@@ -22,7 +22,7 @@ connectDB(){
     
     this.db.createConnection(uri,options).then(
         conn => {
-            console.log("URI Product "+uri);
+            console.log("This is the URI Product "+uri);
             self.productModel=conn.model("TR001",new self.Schema({
                 FDI_0001        : String,
                 FDI_0004     : String
@@ -48,7 +48,7 @@ findProductByID(id){
 
     
         findMultipleProductByID(id){
-           
+            console.log("FindMultipleProductById Product in Product Handler called with Id "+id);
      
                 return this.productModel.find().where({ FDI_0001: {'$regex': '^'+id}  }).limit(10).select({ FDI_0001: 1, FDI_0004: 1 }).exec();
                 

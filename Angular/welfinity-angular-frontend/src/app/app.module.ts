@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import {CdkTableModule} from '@angular/cdk/table';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {DomSanitizer} from '@angular/platform-browser';
-import {FlexLayoutModule} from "@angular/flex-layout";
+
 
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -14,6 +14,7 @@ import { AggregationsComponent } from './aggregations/aggregations.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { ProductSearchComponent } from './product-search/product-search.component';
 import { LoginComponent }         from './Login/login.component';
+import { FlexLayoutModule } from "@angular/flex-layout";
 
 //Services
 import { MarketService } from './Services/market.service';
@@ -73,7 +74,9 @@ import {
     MatInputModule,
     MatProgressSpinnerModule,
     MatTableModule,
-    MatGridListModule
+    MatGridListModule,
+    FlexLayoutModule
+
   ],
   exports: [
     BrowserModule,
@@ -91,6 +94,7 @@ import {
     MatProgressSpinnerModule,
     MatTableModule,
     MatGridListModule,
+    FlexLayoutModule
   ],
 
 
@@ -109,7 +113,7 @@ export class MaterialModule {}
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
-    FlexLayoutModule
+
   ],
   declarations: [
     AppComponent,
