@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Market } from '../markets/market';
 import { MarketService } from '../Services/market.service';
 import { WelfinityscriptsService } from '../Services/welfinityscripts.service';
-
+import { Router } from "@angular/router";
 
 
 
@@ -24,7 +24,7 @@ export class MarketsComponent implements OnInit {
   hoverindex=0;
 
 
-  constructor(private marketService: MarketService, private welfinityscriptsService: WelfinityscriptsService ) { }
+  constructor(private marketService: MarketService, private welfinityscriptsService: WelfinityscriptsService, private router: Router ) { }
 
   ngOnInit() {
     this.getMarkets();
@@ -63,10 +63,11 @@ export class MarketsComponent implements OnInit {
  
 onEditClicked(element){
   console.log("EDIT BUTTON" + element.name);
+  this.router.navigate(['/market_detail/'+element.name]);
+  
 }
 
 onDeleteClicked(element){
-  console.log("DELETE BUTTON 4 "+ element.name);
   this.marketService.deleteMarket(element.name).subscribe(data => this.marketService.getMarkets().subscribe(markets =>{ this.markets = markets}));
   
   

@@ -1,4 +1,4 @@
-<h2>Welfinity Markets</h2>
+<h3>Welfinity Markets</h3>
 
 <div *ngIf="showProgressBar">
   <mat-progress-bar   mode="indeterminate"></mat-progress-bar>
@@ -43,5 +43,9 @@
 
         </mat-table>
 
+        <div>
+          <h3>Create Market</h3>
+          <button type="button"  [routerLink]="['/market_detail']">Create</button>
+        </div>
 
 <app-market-search></app-market-search>

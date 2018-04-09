@@ -12,7 +12,8 @@ const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'dashboard', component: DashboardComponent ,canActivate: [AuthGuard]},
-  { path: 'detail/:name', component: MarketDetailComponent, canActivate: [AuthGuard]},
+  { path: 'market_detail/:name', component: MarketDetailComponent, canActivate: [AuthGuard]},
+  { path: 'market_detail', component: MarketDetailComponent, canActivate: [AuthGuard]},
   { path: 'markets', component: MarketsComponent ,canActivate: [AuthGuard] },
   { path: 'aggregations', component: AggregationsComponent,canActivate: [AuthGuard] }
 ];

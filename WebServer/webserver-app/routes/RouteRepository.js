@@ -200,16 +200,6 @@ self.router.get('/wim',self.passportHandler.passport.authenticate('jwt', { sessi
 
 //Add Market marketName,codici,country,description
 
-/*self.router.post('/markets',function(req, res) {
-	console.log("Market NAME "+JSON.stringify(req.body));
-	var promisedMarket=self.marketsHandler.createMarket(req.body.marketName,req.body.codici,req.body.country,req.body.description);
-	promisedMarket.then(function(createdMarket){
-				res.send("Market created"+createdMarket);
-		}
-	).catch(function(err){
-		console.log(err);
-	})});
-	*/
 
 	self.router.post('/markets',function(req, res) {
 		console.log("Market NAME "+JSON.stringify(req.body));

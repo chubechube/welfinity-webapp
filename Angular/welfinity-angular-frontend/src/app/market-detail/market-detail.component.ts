@@ -16,16 +16,20 @@ export class MarketDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private marketService: MarketService,
-    private location: Location
+    private location: Location,
+    
   ) {}
 
   ngOnInit(): void {
-    this.getMarket();
+    var market_name = this.route.snapshot.paramMap.get('name');
+    if(market_name === null){
+      this.market = new Market();
+     }else{
+      this.getMarket(market_name);
+    }
   }
 
-  getMarket(): void {
-    const id = this.route.snapshot.paramMap.get('name');
-    console.log('name in ' + id);
+  getMarket(id): void {
     this.marketService.getMarket(id).subscribe(val => console.log(val));
     this.marketService.getMarket(id)
       .subscribe(market => this.market = market[0]);
@@ -33,5 +37,14 @@ export class MarketDetailComponent implements OnInit {
 
   goBack(): void {
     this.location.back();
+  }
+
+  create(): void{ 
+    console.log("Button Create "+this.market.name);
+    this.marketService.addMarket(this.market).subscribe(market => {console.log("Market Created") });
+  }
+
+  update(): void{
+    console.log("Button Update");
   }
 }

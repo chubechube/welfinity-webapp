@@ -1,6 +1,7 @@
 export class Market {
-    id: string;
+    _id: string;
     name: string;
     description :string;
-    codes: object;
+    codes: Array<String>;
+    country:string
   }

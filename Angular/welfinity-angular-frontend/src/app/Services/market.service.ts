@@ -62,16 +62,17 @@ private handleError<T> (operation = 'operation', result?: T) {
 /** PUT: update the Market on the server */
 updateMarket (market: Market): Observable<any> {
   return this.http.put(this.marketsUrl, market, httpOptions).pipe(
-    tap(_ => this.log(`updated market id=${market.id}`)),
+    tap(_ => this.log(`updated market id=${market._id}`)),
     catchError(this.handleError<any>('updateMarket'))
   );
 }
 
 /** POST: add a new Market to the server */
 addMarket (market: Market): Observable<Market> {
+  market._id=null;
   return this.http.post<Market>(this.marketsUrl, market, httpOptions).pipe(
     // tslint:disable-next-line:no-shadowed-variable
-    tap((market: Market) => this.log(`added market w/ id=${market.id}`)),
+    tap((market: Market) => this.log(`added market w/ id=${market._id}`)),
     catchError(this.handleError<Market>('addMarket'))
   );
 }
@@ -80,7 +81,6 @@ addMarket (market: Market): Observable<Market> {
 /** DELETE: delete the market from the server */
 deleteMarket (market_name : string): Observable<Market> {
   const url = `${this.marketsUrl}/?name=${market_name}`;
-  this.log("MARKET SERVICE "+url);
   return this.http.delete<Market>(url).pipe(
     tap(_ => this.log(`deleted market id`)),
     catchError(this.handleError<Market>('deleteMarket'))

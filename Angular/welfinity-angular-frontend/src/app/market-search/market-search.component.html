@@ -5,7 +5,7 @@
   
     <ul class="search-result">
       <li *ngFor="let market of markets$ | async" >
-        <a routerLink="/detail/{{market.name}}">
+        <a routerLink="/market_detail/{{market.name}}">
           {{market.name}}
         </a>
       </li>

@@ -1,13 +1,34 @@
 
-<h1>Market details : {{market}} : </h1>
-<div *ngIf="market">
+
+<div class="cointainer" *ngIf="market" fxLayout="column" fxLayoutAlign="center stretch">
  
-  <h2>{{ market.name | uppercase }} Details</h2>
-  <div><span>id: </span>{{market._id}}</div>
-  <div>
-    <label>name:
+
+  <div class >
+    <label>Name:
       <input [(ngModel)]="market.name" placeholder="name">
     </label>
+    </div>
+
+    <div class>
+    <label>Codici:
+      <input [(ngModel)]="market.codici" placeholder="codici">
+    </label>
+    </div>
+
+    <div class>
+    <label>Country:
+      <input [(ngModel)]="market.country" placeholder="country">
+    </label>
+    </div>
+
+    <div class>
+    <label>Description:
+      <input [(ngModel)]="market.description" placeholder="description">
+    </label>
   </div>
-  <button (click)="goBack()">go back</button>
+
 </div>
+
+<button (click)="goBack()">Go back</button>
+<button (click)="create()">Create</button>
+<button (click)="update()">Update</button>
