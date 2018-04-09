@@ -53,11 +53,29 @@ class MarketsHandler  {
 		}
 
 
-
+	/*
 	createMarket(jsonObject){
 		console.log("CREATION Market "+ JSON.stringify(jsonObject) );
 		var marketModel=this.connection.model("italianmarkets",this.marketSchema);
 		var newMarket=new marketModel(jsonObject);
+		return newMarket.save();
+	}
+	*/
+	
+	createMarket(jsonObject){
+		console.log("CREATION Market "+ JSON.stringify(jsonObject) );
+		console.log("Market Name = "+jsonObject.name);
+		var marketModel=this.connection.model("italianmarkets",this.marketSchema);
+		var newMarket=new marketModel();
+
+		newMarket.name = jsonObject.name;
+		var codesString=JSON.stringify(jsonObject.codici);
+		codesString=codesString.slice(2,codesString.length-2);
+
+		newMarket.codici = codesString.split(",");
+		newMarket.description = jsonObject.description;
+		newMarket.country = jsonObject.country;
+	
 		return newMarket.save();
 	}
 
