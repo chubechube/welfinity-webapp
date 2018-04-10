@@ -198,6 +198,21 @@ self.router.get('/wim',self.passportHandler.passport.authenticate('jwt', { sessi
 
 });
 
+
+//Add Market marketName,codici,country,description
+
+
+self.router.put('/markets',function(req, res) {
+	console.log("PUT Market NAME "+JSON.stringify(req.body));
+	var promisedMarket=self.marketsHandler.updateMarketbyId(req.body);
+	promisedMarket.then(function(createdMarket){
+				res.send("PUT Marked UPTADATE"+createdMarket);
+		}
+	).catch(function(err){
+		console.log(err);
+	})});
+
+
 //Add Market marketName,codici,country,description
 
 

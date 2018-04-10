@@ -53,26 +53,27 @@ class MarketsHandler  {
 		}
 
 
-	/*
-	createMarket(jsonObject){
-		console.log("CREATION Market "+ JSON.stringify(jsonObject) );
+	updateMarketbyId(jsonObject){
 		var marketModel=this.connection.model("italianmarkets",this.marketSchema);
-		var newMarket=new marketModel(jsonObject);
-		return newMarket.save();
+		return marketModel.findByIdAndUpdate(jsonObject._id,{
+				name : jsonObject.name,
+				codici : this.createCodesArray(jsonObject),
+				description : jsonObject.description,
+				country : jsonObject.country
+
+
+		});
+		//return marketModel.findById(this.extractId(jsonObject));
+		
 	}
-	*/
 	
 	createMarket(jsonObject){
-		console.log("CREATION Market "+ JSON.stringify(jsonObject) );
-		console.log("Market Name = "+jsonObject.name);
 		var marketModel=this.connection.model("italianmarkets",this.marketSchema);
 		var newMarket=new marketModel();
 
 		newMarket.name = jsonObject.name;
-		var codesString=JSON.stringify(jsonObject.codici);
-		codesString=codesString.slice(2,codesString.length-2);
-
-		newMarket.codici = codesString.split(",");
+		
+		newMarket.codici = this.createCodesArray(jsonObject);
 		newMarket.description = jsonObject.description;
 		newMarket.country = jsonObject.country;
 	
@@ -94,6 +95,18 @@ class MarketsHandler  {
 			}).exec();
 		}
 	
+	createCodesArray(jsonObject){
+		var codesString=JSON.stringify(jsonObject.codici);
+		codesString=codesString.slice(1,codesString.length-1);
+		return codesString.split(",");
+
+	}
+
+	extractId(jsonObject){
+		var tempString = JSON.stringify(jsonObject._id);
+		console.log("REPLACE "+tempString.replace(/['"]+/g, ''));
+		return tempString.replace(/['"]+/g, '');
+	}
 }
 
 

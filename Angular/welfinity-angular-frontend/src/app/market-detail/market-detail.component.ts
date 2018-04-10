@@ -41,10 +41,11 @@ export class MarketDetailComponent implements OnInit {
 
   create(): void{ 
     console.log("Button Create "+this.market.name);
-    this.marketService.addMarket(this.market).subscribe(market => {console.log("Market Created") });
+    this.marketService.addMarket(this.market).subscribe(market => {this.location.back()});
   }
 
   update(): void{
     console.log("Button Update");
+    this.marketService.updateMarket(this.market).subscribe(market => {this.location.back()});;
   }
 }
