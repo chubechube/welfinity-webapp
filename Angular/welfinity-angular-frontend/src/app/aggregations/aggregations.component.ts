@@ -74,12 +74,12 @@ export class AggregationsComponent implements OnInit {
     this.showProgressBar = true;
     var params = new HttpParams()
   
-    for (var i = 0, len = this.product_table_item.length-1; i < len; i++) {
+    for (var i = 0, len = this.product_table_item.length; i < len; i++) {
      
       params=params.append("productcodes[]",this.product_table_item[i].aic);
      }
 
-     params=params.append("productcodes[]",this.product_table_item[this.product_table_item.length-1].aic);
+     //params=params.append("productcodes[]",this.product_table_item[this.product_table_item.length-1].aic);
   
      params=params.append("startdate",this.startdate);
      params=params.append("enddate",this.enddate);
@@ -92,6 +92,7 @@ export class AggregationsComponent implements OnInit {
     
 
   }
+
   addStartDate(type: string, event: MatDatepickerInputEvent<Date>) {
     this.startdate = moment(event.value).format('DD[/]MM[/]YYYY');
 
