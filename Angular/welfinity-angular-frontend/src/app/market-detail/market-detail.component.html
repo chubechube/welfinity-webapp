@@ -27,8 +27,11 @@
     </label>
   </div>
 
-</div>
+ 
+ 
 
-<button (click)="goBack()">Go back</button>
-<button (click)="create()">Create</button>
-<button (click)="update()">Update</button>
+  </div>
+  <button  *ngIf="!isCreation" (click)="update()">Update</button>
+  <button  *ngIf="isCreation" (click)="create()">Create</button>
+  <button  (click)="goBack()">Go back</button>
+

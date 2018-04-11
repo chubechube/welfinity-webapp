@@ -55,6 +55,7 @@ class MarketsHandler  {
 
 	updateMarketbyId(jsonObject){
 		var marketModel=this.connection.model("italianmarkets",this.marketSchema);
+		console.log("PUT !!!!!" +JSON.stringify(jsonObject));
 		return marketModel.findByIdAndUpdate(jsonObject._id,{
 				name : jsonObject.name,
 				codici : this.createCodesArray(jsonObject),
@@ -63,13 +64,13 @@ class MarketsHandler  {
 
 
 		});
-		//return marketModel.findById(this.extractId(jsonObject));
 		
 	}
 	
 	createMarket(jsonObject){
 		var marketModel=this.connection.model("italianmarkets",this.marketSchema);
 		var newMarket=new marketModel();
+		console.log(JSON.stringify(jsonObject));
 
 		newMarket.name = jsonObject.name;
 		
@@ -82,7 +83,6 @@ class MarketsHandler  {
 
 
 	deleteMarketByName(marketName){
-		console.log("DELETE REQUEST for " + marketName);
 		var marketModel=this.connection.model("italianmarkets",this.marketSchema);
 		return marketModel.remove({name : marketName}).exec();
 	}

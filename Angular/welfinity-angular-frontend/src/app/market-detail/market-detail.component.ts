@@ -12,20 +12,28 @@ import { MarketService } from '../Services/market.service';
 })
 export class MarketDetailComponent implements OnInit {
   @Input() market: Market;
+  @Input() isCreation: Boolean;
+
 
   constructor(
     private route: ActivatedRoute,
     private marketService: MarketService,
     private location: Location,
     
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    var market_name = this.route.snapshot.paramMap.get('name');
+    var  market_name = this.route.snapshot.paramMap.get('name');
+ 
     if(market_name === null){
+ 
       this.market = new Market();
+      this.isCreation = true;
+
      }else{
       this.getMarket(market_name);
+      this.isCreation = false;
+
     }
   }
 

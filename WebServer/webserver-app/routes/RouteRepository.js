@@ -191,19 +191,14 @@ self.router.get('/product',self.passportHandler.passport.authenticate('jwt', { s
 
 //WIM SERVICE
 self.router.get('/wim',self.passportHandler.passport.authenticate('jwt', { session: false }),function(req, res) {
-  
-
-	self.welfinityservices.startWimService(res);
-  
-
-});
+ 	self.welfinityservices.startWimService(res);
+ });
 
 
 //Add Market marketName,codici,country,description
 
 
 self.router.put('/markets',function(req, res) {
-	console.log("PUT Market NAME "+JSON.stringify(req.body));
 	var promisedMarket=self.marketsHandler.updateMarketbyId(req.body);
 	promisedMarket.then(function(createdMarket){
 				res.send("PUT Marked UPTADATE"+createdMarket);
@@ -217,7 +212,6 @@ self.router.put('/markets',function(req, res) {
 
 
 	self.router.post('/markets',function(req, res) {
-		console.log("Market NAME "+JSON.stringify(req.body));
 		var promisedMarket=self.marketsHandler.createMarket(req.body);
 		promisedMarket.then(function(createdMarket){
 					res.send("Market created"+createdMarket);

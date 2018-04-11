@@ -66,22 +66,14 @@ onEditClicked(element){
   this.router.navigate(['/market_detail/'+element.name]);
   
 }
-
+onCreateClicked(){
+  this.router.navigate(['/market_detail/']);
+}
 onDeleteClicked(element){
   this.marketService.deleteMarket(element.name).subscribe(data => this.marketService.getMarkets().subscribe(markets =>{ this.markets = markets}));
   
   
 }
-
-
-  add(name: string): void {
-    name = name.trim(); 
-    if (!name) { return; }
-    this.marketService.addMarket({ name } as Market)
-      .subscribe(market => {
-        this.markets.push(market);
-      });
-  }
 
 }
 
