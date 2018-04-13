@@ -35,7 +35,11 @@
             <mat-cell *matCellDef="let element"> <button mat-raised-button (click)="onDeleteClicked(element)">Delete</button> </mat-cell>
           </ng-container>
                 
-
+          <!-- Action Generate Column -->
+          <ng-container matColumnDef="action_generate">
+            <mat-header-cell *matHeaderCellDef> Generate </mat-header-cell>
+            <mat-cell *matCellDef="let element"> <button mat-raised-button (click)="onGenerateClicked(element)">Generate</button> </mat-cell>
+          </ng-container>
 
           
            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

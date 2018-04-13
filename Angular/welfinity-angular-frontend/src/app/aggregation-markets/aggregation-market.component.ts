@@ -30,8 +30,8 @@ export class AggregationMarketComponent implements OnInit {
   showProgressBar: boolean;
   markets: Market[];
   selectedMarket: Market;
-  displayedColumns = ['country','name', 'description','codes'];
-  highlightedRows = [];
+  displayedColumns = ['country','name', 'description','codes','action_aggregate'];
+  highlightedRows = null;
   hoverindex=0;
   startdate: string | null;
   enddate:  string | null;
@@ -61,8 +61,8 @@ export class AggregationMarketComponent implements OnInit {
     
   onRowClicked(row) {
     console.log("Selected "+row.codici);
-    this.highlightedRows.push(row);
-    this.WDM_Extract_and_Aggregate_Multiple(row);
+    this.highlightedRows = row;
+    
     }
   
   addStartDate(type: string, event: MatDatepickerInputEvent<Date>) {
@@ -74,6 +74,10 @@ export class AggregationMarketComponent implements OnInit {
     this.enddate = moment(event.value).format('DD[/]MM[/]YYYY');
     console.log("END DATE "+this.enddate); 
     }
+
+   onAggregateClicked(row){
+    this.WDM_Extract_and_Aggregate_Multiple(row);
+  }
 
   WDM_Extract_and_Aggregate_Multiple(row){
     this.showProgressBar = true;

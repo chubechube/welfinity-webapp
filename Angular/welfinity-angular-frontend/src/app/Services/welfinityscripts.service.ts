@@ -42,9 +42,9 @@ export class WelfinityscriptsService {
   }
   
  
-  WIM_createMarkets(): Observable<String> {
+  WIM_createMarkets(params: HttpParams): Observable<String> {
     const url = `${this.WIM_createMarkets_Url}`;
-    return this.http.get<String>(url).pipe(
+    return this.http.get<String>(url,{params}).pipe(
       tap(_ => this.log(`Created  market`)),
       catchError(this.handleError<String>(`Create Market`))
     );

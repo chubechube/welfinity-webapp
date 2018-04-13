@@ -190,8 +190,12 @@ self.router.get('/product',self.passportHandler.passport.authenticate('jwt', { s
 
 
 //WIM SERVICE
+
+//Generate Market 
 self.router.get('/wim',self.passportHandler.passport.authenticate('jwt', { session: false }),function(req, res) {
- 	self.welfinityservices.startWimService(res);
+
+	console.log("GENERAT MARKET Query "+JSON.stringify(req.query));
+ 	self.welfinityservices.startWimService(req,res);
  });
 
 
@@ -233,7 +237,7 @@ self.router.delete('/markets',self.passportHandler.passport.authenticate('jwt', 
 	self.router.get('/markets',self.passportHandler.passport.authenticate('jwt', { session: false }),function(req,res){
 
 	
-		console.log("Query "+req.query.toString());
+
 		var marketName = req.query.name;
 		var promisedMarketList = null;
 		console.log("Market Name "+marketName);

@@ -3,7 +3,7 @@ import { Market } from '../markets/market';
 import { MarketService } from '../Services/market.service';
 import { WelfinityscriptsService } from '../Services/welfinityscripts.service';
 import { Router } from "@angular/router";
-
+import {HttpParams} from "@angular/common/http";
 
 
 @Component({
@@ -19,7 +19,7 @@ export class MarketsComponent implements OnInit {
   selectedMarket: Market;
   showProgressBar: boolean;
   requetResult: String;
-  displayedColumns = ['country','name', 'description','action_edit','action_delete'];
+  displayedColumns = ['country','name', 'description','action_edit','action_delete','action_generate'];
   highlightedRows = [];
   hoverindex=0;
 
@@ -37,10 +37,12 @@ export class MarketsComponent implements OnInit {
 
   }
 
-  WIM_createMarket(): void {
+  onGenerateClicked(element): void {
     this.showProgressBar = true;
-   
-    this.welfinityscriptsService.WIM_createMarkets().subscribe(data => {this.requetResult =  data['result'];   console.log('result ' + this.requetResult);
+    var params = new HttpParams();
+    console.log("MARKET NAME "+element.name);
+    params=params.append("marketname",element.name);    
+    this.welfinityscriptsService.WIM_createMarkets(params).subscribe(data => {this.requetResult =  data['result'];   console.log('result ' + this.requetResult);
     this.showProgressBar = false;});
   
   }

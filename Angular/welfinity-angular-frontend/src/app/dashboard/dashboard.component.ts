@@ -9,13 +9,16 @@ import { WelfinityscriptsService } from '../Services/welfinityscripts.service'
 })
 export class DashboardComponent implements OnInit {
 
- // markets: Market[] = [];
 
-  constructor(private welfinityService: WelfinityscriptsService) { }
+
+  constructor(private welfinityscriptsService: WelfinityscriptsService) { }
 
   ngOnInit() {
-   // this.getMarkets();
+  
   }
 
-  
+  secret(){
+    console.log("TEST HOOK");
+    
+  }
 }

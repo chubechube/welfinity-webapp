@@ -21,15 +21,25 @@
       <mat-cell *matCellDef="let element"> {{element.description}} </mat-cell>
     </ng-container>
 
-    <!-- Action Edit Column -->
+    <!-- Codes Column -->
     <ng-container matColumnDef="codes">
       <mat-header-cell *matHeaderCellDef> Codes </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.codici}} </mat-cell>
     </ng-container>
-        
+    
+
+     <!-- Action Aggreagate Column -->
+     <ng-container matColumnDef="action_aggregate">
+      <mat-header-cell *matHeaderCellDef> Aggregate </mat-header-cell>
+       <mat-cell *matCellDef="let element"> <button mat-raised-button (click)="onAggregateClicked(element)">Generate</button> </mat-cell>
+    </ng-container>
+
      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row  *matRowDef="let row;  columns: displayedColumns;"   [style.background]="row == hoverindex ? 'lightblue' : ''"  (mouseover)="onRowHover(row)" (mouseleave)="onRowLeave()" (click)="onRowClicked(row)"></mat-row>
 
+
+
+    
   </mat-table>
 
   <div>
