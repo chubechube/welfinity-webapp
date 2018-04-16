@@ -30,7 +30,7 @@ export class AggregationMarketComponent implements OnInit {
   showProgressBar: boolean;
   markets: Market[];
   selectedMarket: Market;
-  displayedColumns = ['country','name', 'description','codes','action_aggregate'];
+  displayedColumns = ['name','codes', 'description','country','action_aggregate'];
   highlightedRows = null;
   hoverindex=0;
   startdate: string | null;
@@ -60,19 +60,16 @@ export class AggregationMarketComponent implements OnInit {
       }
     
   onRowClicked(row) {
-    console.log("Selected "+row.codici);
     this.highlightedRows = row;
     
     }
   
   addStartDate(type: string, event: MatDatepickerInputEvent<Date>) {
     this.startdate = moment(event.value).format('DD[/]MM[/]YYYY');
-    console.log("START DATE "+this.startdate);
     }
   
   addEndDate(type: string, event: MatDatepickerInputEvent<Date>) {
     this.enddate = moment(event.value).format('DD[/]MM[/]YYYY');
-    console.log("END DATE "+this.enddate); 
     }
 
    onAggregateClicked(row){
@@ -82,7 +79,6 @@ export class AggregationMarketComponent implements OnInit {
   WDM_Extract_and_Aggregate_Multiple(row){
     this.showProgressBar = true;
     var params = new HttpParams()
-    console.log("ROW CODICI IN CHIAMATA "+row.codici);
     var codes = this.createCodesArray(row.codici);
 
     for (var i = 0, len = codes.length; i < len; i++) {

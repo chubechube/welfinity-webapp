@@ -3,11 +3,7 @@
 </div>
 
 <mat-table   #table [dataSource]="markets">
-    <!-- Country Column -->
-    <ng-container class="search-result" matColumnDef="country">
-        <mat-header-cell *matHeaderCellDef> Country </mat-header-cell>
-        <mat-cell *matCellDef="let element" > {{element.country}} </mat-cell>
-      </ng-container>
+   
 
     <!-- Name Column -->
     <ng-container matColumnDef="name">
@@ -15,23 +11,28 @@
       <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
     </ng-container>
 
+     <!-- Codes Column -->
+    <ng-container matColumnDef="codes">
+      <mat-header-cell *matHeaderCellDef> Codes </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.codici}} </mat-cell>
+    </ng-container>
+
     <!-- Description Column -->
     <ng-container matColumnDef="description">
       <mat-header-cell *matHeaderCellDef> Description </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.description}} </mat-cell>
     </ng-container>
-
-    <!-- Codes Column -->
-    <ng-container matColumnDef="codes">
-      <mat-header-cell *matHeaderCellDef> Codes </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.codici}} </mat-cell>
-    </ng-container>
     
+     <!-- Country Column -->
+     <ng-container class="search-result" matColumnDef="country">
+      <mat-header-cell *matHeaderCellDef> Country </mat-header-cell>
+      <mat-cell *matCellDef="let element" > {{element.country}} </mat-cell>
+    </ng-container>
 
      <!-- Action Aggreagate Column -->
      <ng-container matColumnDef="action_aggregate">
       <mat-header-cell *matHeaderCellDef> Aggregate </mat-header-cell>
-       <mat-cell *matCellDef="let element"> <button mat-raised-button (click)="onAggregateClicked(element)">Generate</button> </mat-cell>
+       <mat-cell *matCellDef="let element"> <button mat-raised-button color="primary" (click)="onAggregateClicked(element)">Aggregate</button> </mat-cell>
     </ng-container>
 
      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

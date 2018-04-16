@@ -26,19 +26,19 @@
           <!-- Action Edit Column -->
           <ng-container matColumnDef="action_edit">
             <mat-header-cell *matHeaderCellDef> Edit </mat-header-cell>
-            <mat-cell *matCellDef="let element"> <button mat-raised-button (click)="onEditClicked(element)">Edit</button > </mat-cell>
+            <mat-cell *matCellDef="let element"> <button mat-raised-button color="primary" (click)="onEditClicked(element)">Edit</button > </mat-cell>
           </ng-container>
           
            <!-- Action Delete Column -->
            <ng-container matColumnDef="action_delete">
             <mat-header-cell *matHeaderCellDef> Delete </mat-header-cell>
-            <mat-cell *matCellDef="let element"> <button mat-raised-button (click)="onDeleteClicked(element)">Delete</button> </mat-cell>
+            <mat-cell *matCellDef="let element"> <button mat-raised-button color="primary" (click)="onDeleteClicked(element)">Delete</button> </mat-cell>
           </ng-container>
                 
           <!-- Action Generate Column -->
           <ng-container matColumnDef="action_generate">
             <mat-header-cell *matHeaderCellDef> Generate </mat-header-cell>
-            <mat-cell *matCellDef="let element"> <button mat-raised-button (click)="onGenerateClicked(element)">Generate</button> </mat-cell>
+            <mat-cell *matCellDef="let element"> <button mat-raised-button color="primary"  (click)="onGenerateClicked(element)">Generate</button> </mat-cell>
           </ng-container>
 
           
