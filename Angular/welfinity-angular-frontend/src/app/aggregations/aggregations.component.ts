@@ -3,9 +3,9 @@ import { WelfinityscriptsService } from '../Services/welfinityscripts.service';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { of } from 'rxjs/observable/of';
-import {FormControl} from '@angular/forms';
-import {MatTableDataSource} from '@angular/material';
-import {HttpParams} from "@angular/common/http";
+import { FormControl} from '@angular/forms';
+import { MatTableDataSource} from '@angular/material';
+import { HttpParams} from "@angular/common/http";
 import { Product } from '../Products/products';
 import { ProductsService } from '../Services/products.service';
 import { saveAs } from 'file-saver/FileSaver';
@@ -33,18 +33,18 @@ export class AggregationsComponent implements OnInit {
 
   showProgressBar: boolean;
   products$: Observable<Product[]>;
-  mybox : String;
-  events: string[] = [];
   lastDateInput: Date | null;
   lastDateChange: Date | null;
   dateCtrl = new FormControl();
   startdate: string | null;
   enddate:  string | null;
 
-  displayedColumns = ['aic', 'description'];
+  displayedColumns = ['code', 'description'];
   dataSource = new MatTableDataSource();
   product_table_item: ProductElement[] =[];
- 
+  selected_item : ProductElement= null;
+
+
   private searchTerms = new Subject<string>();
 
   constructor(private productsService: ProductsService, private welfinityscriptsService: WelfinityscriptsService ) { }
@@ -76,11 +76,9 @@ export class AggregationsComponent implements OnInit {
   
     for (var i = 0, len = this.product_table_item.length; i < len; i++) {
      
-      params=params.append("productcodes[]",this.product_table_item[i].aic);
+      params=params.append("productcodes[]",this.product_table_item[i].code);
      }
 
-     //params=params.append("productcodes[]",this.product_table_item[this.product_table_item.length-1].aic);
-  
      params=params.append("startdate",this.startdate);
      params=params.append("enddate",this.enddate);
     this.welfinityscriptsService.WDM_Extract_and_Aggregate_Multiple(params).subscribe(data => { var blob = new Blob([data], {type: 'application/vnd.ms-excel'});
@@ -103,10 +101,7 @@ export class AggregationsComponent implements OnInit {
 
   }
 
-  enterProductCode(productCode: string) {
-    console.log("Entered Value = "+productCode);
-    this.mybox=productCode;
-    }
+
   
     applyFilter(filterValue: string) {
       filterValue = filterValue.trim(); // Remove whitespace
@@ -115,15 +110,21 @@ export class AggregationsComponent implements OnInit {
     }
 
     addProductToTable(productCode: string, description: string){
-     this.product_table_item.push({aic: productCode, description: description});
+      this.product_table_item.push({code: productCode, description: description});
      this.dataSource.data=this.product_table_item;
+     this.selected_item = {code: productCode, description: description};
+
     }
 
 }
 
 export interface ProductElement {
-  aic: string;
+  code: string;
   description: string;
  
 }
+
+
+
+
 

@@ -54,7 +54,10 @@ WDM_Extract_And_Aggregate_Multiple(req,res){
                 });
          
          // console.log(process.env.WDM_SCRIPT_EXTRACT_AND_AGGREGATE+" " + process.env.WDM_SERVER+ " 27017 talendUser ba+Req6@agu6 Pharmacies_list Italy markets Product_Dictionaries_Italy /data/aggregate/Italy/toAggregate/ /data/aggregate/Italy/Aggregated/ filetoaggregate.csv aggregated.xls /var/log/welfinity/talend/WDM/  italy_prp Product_ID '" +req.query.productcodes+"' Transaction_Timestamp "+ req.query.startdate +" "+req.query.enddate +" "+process.env.WDM_DESTINATION_FOLDER +" 94.23.179.225 nodiuser\nexit\n");
-          stream.end(process.env.WDM_SCRIPT_EXTRACT_AND_AGGREGATE+" " + process.env.WDM_SERVER+ " 27017 talendUser ba+Req6@agu6 Pharmacies_list Italy markets Product_Dictionaries_Italy /data/aggregate/Italy/toAggregate/ /data/aggregate/Italy/Aggregated/ filetoaggregate.csv aggregated.xls /var/log/welfinity/talend/WDM/  italy_prp Product_ID '" +req.query.productcodes+"' Transaction_Timestamp "+ req.query.startdate +" "+req.query.enddate +" "+process.env.WDM_DESTINATION_FOLDER +" 94.23.179.225 nodiuser\nexit\n");     
+         var tableTR001 = req.query.marketname + "_TR001";
+         var tableTR017 = req.query.marketname + "_TR017";
+
+         stream.end(process.env.WDM_SCRIPT_EXTRACT_AND_AGGREGATE+" " + process.env.WDM_SERVER+ " 27017 talendUser ba+Req6@agu6 Pharmacies_list Italy markets Product_Dictionaries_Italy /data/aggregate/Italy/toAggregate/ /data/aggregate/Italy/Aggregated/ filetoaggregate.csv aggregated.xls /var/log/welfinity/talend/WDM/  italy_prp Product_ID '" +req.query.productcodes+"' Transaction_Timestamp "+ req.query.startdate +" "+req.query.enddate +" "+process.env.WDM_DESTINATION_FOLDER +" 94.23.179.225 nodiuser "+tableTR001+" "+tableTR017 + " \nexit\n");     
         });
       }).connect({
         host: process.env.WDM_SERVER,

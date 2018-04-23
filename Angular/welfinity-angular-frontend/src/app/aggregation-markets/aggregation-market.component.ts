@@ -88,6 +88,7 @@ export class AggregationMarketComponent implements OnInit {
     
     params=params.append("startdate",this.startdate);
     params=params.append("enddate",this.enddate);
+    params=params.append("marketname",row.name);
     this.welfinityscriptsService.WDM_Extract_and_Aggregate_Multiple(params).subscribe(data => { var blob = new Blob([data], {type: 'application/vnd.ms-excel'});
     var filename = 'aggregated.xls';
     saveAs(blob, filename);

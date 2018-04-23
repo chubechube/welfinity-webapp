@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { WelfinityscriptsService } from '../Services/welfinityscripts.service'
+import { Component, OnInit  } from '@angular/core';
+
 
 
 @Component({
@@ -7,18 +7,33 @@ import { WelfinityscriptsService } from '../Services/welfinityscripts.service'
   templateUrl: './dashboard.component.html',
   styleUrls: [ './dashboard.component.css' ]
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit  {
 
 
+  dataTable: ProductElement[] = [
+    {code: "123", description: 'Hydrogen'},
+    {code: "456", description: 'Helium'}
+  ];
 
-  constructor(private welfinityscriptsService: WelfinityscriptsService) { }
+  constructor() { }
+  
 
   ngOnInit() {
   
   }
 
+
+
   secret(){
     console.log("TEST HOOK");
-    
+     
   }
 }
+  
+export interface ProductElement {
+  code: string;
+  description: string;
+}
+
+
+

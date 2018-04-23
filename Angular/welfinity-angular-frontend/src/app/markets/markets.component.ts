@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { Market } from '../markets/market';
-import { MarketService } from '../Services/market.service';
-import { WelfinityscriptsService } from '../Services/welfinityscripts.service';
-import { Router } from "@angular/router";
-import {HttpParams} from "@angular/common/http";
+import { Component, OnInit }        from '@angular/core';
+import { Market }                   from '../markets/market';
+import { MarketService }            from '../Services/market.service';
+import { WelfinityscriptsService }  from '../Services/welfinityscripts.service';
+import { Router }                   from "@angular/router";
+import { HttpParams}                from "@angular/common/http";
 
 
 @Component({
@@ -64,7 +64,6 @@ export class MarketsComponent implements OnInit {
 
  
 onEditClicked(element){
-  console.log("EDIT BUTTON" + element.name);
   this.router.navigate(['/market_detail/'+element.name]);
   
 }

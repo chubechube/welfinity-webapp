@@ -7,7 +7,7 @@
   
       <div id="search-component">
         <h4>Product Search</h4>
-        <input  #searchBox id="search-box" (keyup)="search(searchBox.value)" [(ngModel)]="mybox" />
+        <input  #searchBox id="search-box" (keyup)="search(searchBox.value)"  />
 
          <button class="Extract" title="Perform Data Extraction"
             (click)="WDM_Extract_and_Aggregate_Multiple()">Aggregate</button>
@@ -15,7 +15,7 @@
         <ul class="search-result">
           <li *ngFor="let product of products$ | async" >
             <a >
-            <a (click)="enterProductCode(product.FDI_0001);addProductToTable(product.FDI_0001,product.FDI_0004)"> <span class="badge"> {{product.FDI_0001}}</span>  {{product.FDI_0004}}</a>      
+            <a (click)="addProductToTable(product.FDI_0001,product.FDI_0004)"> <span class="badge"> {{product.FDI_0001}}</span>  {{product.FDI_0004}}</a>      
             </a>
           </li> 
         </ul>
@@ -51,13 +51,13 @@
       
         <mat-table #table [dataSource]="dataSource">
       
-          <!-- Position Column -->
-          <ng-container matColumnDef="aic">
-            <mat-header-cell *matHeaderCellDef> AIC </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.aic}} </mat-cell>
+          <!-- Aic Column -->
+          <ng-container matColumnDef="code">
+            <mat-header-cell *matHeaderCellDef> Code </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.code}} </mat-cell>
           </ng-container>
       
-          <!-- Name Column -->
+          <!-- Description Column -->
           <ng-container matColumnDef="description">
             <mat-header-cell *matHeaderCellDef> DESCRIPTION </mat-header-cell>
             <mat-cell *matCellDef="let element"> {{element.description}} </mat-cell>
@@ -68,4 +68,10 @@
         </mat-table>
       </div>
     </div>
+  </div>
+
+  <div class="product Table">
+
+    <product-table-component [selected_item]="selected_item"></product-table-component>
+
   </div>
