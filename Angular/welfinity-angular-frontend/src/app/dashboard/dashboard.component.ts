@@ -10,11 +10,6 @@ import { Component, OnInit  } from '@angular/core';
 export class DashboardComponent implements OnInit  {
 
 
-  dataTable: ProductElement[] = [
-    {code: "123", description: 'Hydrogen'},
-    {code: "456", description: 'Helium'}
-  ];
-
   constructor() { }
   
 

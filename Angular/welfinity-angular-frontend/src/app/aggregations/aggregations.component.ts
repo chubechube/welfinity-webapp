@@ -111,8 +111,8 @@ export class AggregationsComponent implements OnInit {
 
     addProductToTable(productCode: string, description: string){
       this.product_table_item.push({code: productCode, description: description});
-     this.dataSource.data=this.product_table_item;
-     this.selected_item = {code: productCode, description: description};
+      this.dataSource.data=this.product_table_item;
+      this.selected_item = {code: productCode, description: description};
 
     }
 
