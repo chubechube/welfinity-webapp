@@ -13,15 +13,32 @@ import { MatTableDataSource }               from '@angular/material';
 })
 
 export class ProductTableComponent implements OnInit ,  OnChanges  {
-    displayedColumns = ['code', 'description'];
+    displayedColumns = ['code', 'description',"action_remove"];
     table_dataSource = new MatTableDataSource();
     table_dataTable: ProductElement[] =[];
    
 
 
-    @Input() selected_item : ProductElement
+    @Input() selected_item :    ProductElement
+    @Input() initial_products:  ProductElement[]
 
     constructor() {}
+
+    onRemoveClicked(ProductElement){
+      console.log("Remove ");
+      const index: number = this.table_dataTable.indexOf(ProductElement);
+      if (index !== -1) {
+        this.table_dataTable.splice(index, 1);
+      }
+      
+      this.table_dataTable = [...this.table_dataTable ];
+        this.table_dataSource.data = this.table_dataTable;
+    }
+
+    onClearClicked(){
+      this.table_dataTable = [];
+      this.table_dataSource.data = this.table_dataTable;
+    }
   
     ngOnChanges(changes: SimpleChanges) {
       console.log("CHANGE");
@@ -41,9 +58,11 @@ export class ProductTableComponent implements OnInit ,  OnChanges  {
     
 
     ngOnInit(){
-     //this.table_dataTable.push({code : "test" , description : "ret"});
-     //this.table_dataSource.data=this.table_dataTable;
-        console.log("INPUT ON INIT");
+          
+          if(this.initial_products != undefined)
+          {
+            this.table_dataTable = this.initial_products;
+          }
       }
   
     applyFilter(filterValue: string) {

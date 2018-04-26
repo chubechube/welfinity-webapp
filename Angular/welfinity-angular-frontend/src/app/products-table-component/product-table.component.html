@@ -13,7 +13,16 @@
       <mat-cell *matCellDef="let element"> {{element.description}} </mat-cell>
     </ng-container>
 
+     <!-- Remove Button Column -->
+    <ng-container matColumnDef="action_remove">
+      <mat-header-cell *matHeaderCellDef> Edit </mat-header-cell>
+      <mat-cell *matCellDef="let element"> <button mat-raised-button color="primary" (click)="onRemoveClicked(element)">Remove</button > </mat-cell>
+    </ng-container>
+
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>
+
+  <button mat-raised-button color="primary" (click)="onClearClicked()">Clear</button >
+
 </div>

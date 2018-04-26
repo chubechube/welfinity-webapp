@@ -43,6 +43,7 @@ export class AggregationsComponent implements OnInit {
   dataSource = new MatTableDataSource();
   product_table_item: ProductElement[] =[];
   selected_item : ProductElement= null;
+  initial_products : ProductElement[] =[];
 
 
   private searchTerms = new Subject<string>();

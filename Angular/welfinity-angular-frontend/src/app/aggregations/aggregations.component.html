@@ -42,36 +42,10 @@
   
     <div table>
 
-    <div class="product-container mat-elevation-z8">
-        <div class="product-header">
-          <mat-form-field>
-            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-          </mat-form-field>
-        </div>
-      
-        <mat-table #table [dataSource]="dataSource">
-      
-          <!-- Aic Column -->
-          <ng-container matColumnDef="code">
-            <mat-header-cell *matHeaderCellDef> Code </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.code}} </mat-cell>
-          </ng-container>
-      
-          <!-- Description Column -->
-          <ng-container matColumnDef="description">
-            <mat-header-cell *matHeaderCellDef> DESCRIPTION </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.description}} </mat-cell>
-          </ng-container>
-      
-           <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-        </mat-table>
+      <div class="product Table">
+
+        <product-table-component [selected_item]="selected_item" [initial_products]="initial_products"></product-table-component>
+    
       </div>
-    </div>
-  </div>
-
-  <div class="product Table">
-
-    <product-table-component [selected_item]="selected_item"></product-table-component>
-
+   
   </div>
