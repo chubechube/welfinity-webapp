@@ -19,7 +19,8 @@ export class MarketsComponent implements OnInit {
   selectedMarket: Market;
   showProgressBar: boolean;
   requetResult: String;
-  displayedColumns = ['country','name', 'description','action_edit','action_delete','action_generate'];
+  //displayedColumns = ['country','name', 'description','action_edit','action_delete','action_generate'];
+  displayedColumns = ['country','name', 'description','actions'];
   highlightedRows = [];
   hoverindex=0;
 

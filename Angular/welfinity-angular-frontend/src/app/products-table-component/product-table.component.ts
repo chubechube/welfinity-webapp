@@ -13,7 +13,7 @@ import { MatTableDataSource }               from '@angular/material';
 })
 
 export class ProductTableComponent implements OnInit ,  OnChanges  {
-    displayedColumns = ['code', 'description',"action_remove"];
+    displayedColumns = ['code', 'description',"actions"];
     table_dataSource = new MatTableDataSource();
     table_dataTable: ProductElement[] =[];
    

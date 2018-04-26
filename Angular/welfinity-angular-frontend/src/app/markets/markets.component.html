@@ -22,25 +22,32 @@
             <mat-header-cell *matHeaderCellDef> Description </mat-header-cell>
             <mat-cell *matCellDef="let element"> {{element.description}} </mat-cell>
           </ng-container>
-      
-          <!-- Action Edit Column -->
-          <ng-container matColumnDef="action_edit">
-            <mat-header-cell *matHeaderCellDef> Edit </mat-header-cell>
-            <mat-cell *matCellDef="let element"> <button mat-raised-button color="primary" (click)="onEditClicked(element)">Edit</button > </mat-cell>
-          </ng-container>
-          
-           <!-- Action Delete Column -->
-           <ng-container matColumnDef="action_delete">
-            <mat-header-cell *matHeaderCellDef> Delete </mat-header-cell>
-            <mat-cell *matCellDef="let element"> <button mat-raised-button color="primary" (click)="onDeleteClicked(element)">Delete</button> </mat-cell>
-          </ng-container>
-                
-          <!-- Action Generate Column -->
-          <ng-container matColumnDef="action_generate">
-            <mat-header-cell *matHeaderCellDef> Generate </mat-header-cell>
-            <mat-cell *matCellDef="let element"> <button mat-raised-button color="primary"  (click)="onGenerateClicked(element)">Generate</button> </mat-cell>
-          </ng-container>
 
+
+           <!-- Action Menu Column -->
+           <ng-container matColumnDef="actions">
+              <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+
+              <mat-cell *matCellDef="let element">
+
+
+                  <button mat-icon-button [matMenuTriggerFor]="menu">
+                      <mat-icon>more_vert</mat-icon>
+                    </button>
+                    <mat-menu x-position="before" #menu="matMenu">
+                       <button mat-menu-item color="primary" (click)="onEditClicked(element)">Edit</button >
+                       <button mat-menu-item color="primary" (click)="onDeleteClicked(element)">Delete</button>
+                       <button mat-menu-item color="primary"  (click)="onGenerateClicked(element)">Generate</button>
+                    </mat-menu>
+
+
+
+              </mat-cell>
+
+              
+            </ng-container>
+      
+        
           
            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
           <mat-row  *matRowDef="let row;  columns: displayedColumns;"   [style.background]="row == hoverindex ? 'lightblue' : ''"  (mouseover)="onRowHover(row)" (mouseleave)="onRowLeave()" (click)="onRowClicked(row)"></mat-row>
