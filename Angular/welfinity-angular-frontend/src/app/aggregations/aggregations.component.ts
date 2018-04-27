@@ -44,7 +44,7 @@ export class AggregationsComponent implements OnInit {
   product_table_item: ProductElement[] =[];
   selected_item : ProductElement= null;
   initial_products : ProductElement[] =[];
-
+ 
 
   private searchTerms = new Subject<string>();
 

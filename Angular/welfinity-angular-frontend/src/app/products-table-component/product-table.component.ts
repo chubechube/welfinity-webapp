@@ -1,6 +1,6 @@
 import { Component,OnInit, Input ,  OnChanges, SimpleChange ,SimpleChanges,  }         from '@angular/core';
 import { MatTableDataSource }               from '@angular/material';
-
+import { ProductElement } from '../dashboard/dashboard.component';
 
 
 
@@ -9,7 +9,7 @@ import { MatTableDataSource }               from '@angular/material';
     selector: 'product-table-component',
     templateUrl: 'product-table.component.html',
     styleUrls: ['product-table.component.css'],
-
+    
 })
 
 export class ProductTableComponent implements OnInit ,  OnChanges  {
@@ -22,10 +22,13 @@ export class ProductTableComponent implements OnInit ,  OnChanges  {
     @Input() selected_item :    ProductElement
     @Input() initial_products:  ProductElement[]
 
-    constructor() {}
+    constructor()  {
+
+  
+    }
 
     onRemoveClicked(ProductElement){
-      console.log("Remove ");
+ 
       const index: number = this.table_dataTable.indexOf(ProductElement);
       if (index !== -1) {
         this.table_dataTable.splice(index, 1);
@@ -41,7 +44,6 @@ export class ProductTableComponent implements OnInit ,  OnChanges  {
     }
   
     ngOnChanges(changes: SimpleChanges) {
-      console.log("CHANGE");
      for (let propName in changes) {
       let changedProp = changes[propName];
       let to = JSON.stringify(changedProp.currentValue);
