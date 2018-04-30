@@ -19,7 +19,6 @@ export class MarketsComponent implements OnInit {
   selectedMarket: Market;
   showProgressBar: boolean;
   requetResult: String;
-  //displayedColumns = ['country','name', 'description','action_edit','action_delete','action_generate'];
   displayedColumns = ['country','name', 'description','actions'];
   highlightedRows = [];
   hoverindex=0;
@@ -41,7 +40,6 @@ export class MarketsComponent implements OnInit {
   onGenerateClicked(element): void {
     this.showProgressBar = true;
     var params = new HttpParams();
-    console.log("MARKET NAME "+element.name);
     params=params.append("marketname",element.name);    
     this.welfinityscriptsService.WIM_createMarkets(params).subscribe(data => {this.requetResult =  data['result'];   console.log('result ' + this.requetResult);
     this.showProgressBar = false;});

@@ -2,6 +2,10 @@
 
 <div class="cointainer" *ngIf="market" fxLayout="column" fxLayoutAlign="center stretch">
  
+  <div *ngIf="showProgressBar">
+    <mat-progress-bar   mode="indeterminate"></mat-progress-bar>
+  </div>
+  
 
   <div  >
     <label>Name:

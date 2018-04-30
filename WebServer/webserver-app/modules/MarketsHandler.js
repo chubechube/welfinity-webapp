@@ -98,6 +98,7 @@ class MarketsHandler  {
 	createCodesArray(jsonObject){
 		var codesString=JSON.stringify(jsonObject.codici);
 		codesString=codesString.slice(1,codesString.length-1);
+		codesString = codesString.replace(/['"]+/g, '');
 		return codesString.split(",");
 
 	}

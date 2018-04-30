@@ -1,9 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
-
-import { Market } from '../markets/market';
-import { MarketService } from '../Services/market.service';
+import { Component, OnInit, Input }    from '@angular/core';
+import { ActivatedRoute }              from '@angular/router';
+import { Location }                    from '@angular/common';
+import { HttpParams}                   from "@angular/common/http";
+import { Market }                      from '../markets/market';
+import { MarketService }               from '../Services/market.service';
+import { WelfinityscriptsService }     from '../Services/welfinityscripts.service';
 
 @Component({
   selector: 'app-market-detail',
@@ -13,12 +14,14 @@ import { MarketService } from '../Services/market.service';
 export class MarketDetailComponent implements OnInit {
   @Input() market: Market;
   @Input() isCreation: Boolean;
-
+  showProgressBar: boolean;
+  requetResult: String;
 
   constructor(
     private route: ActivatedRoute,
     private marketService: MarketService,
     private location: Location,
+    private welfinityscriptsService: WelfinityscriptsService
     
   ) { }
 
@@ -54,6 +57,15 @@ export class MarketDetailComponent implements OnInit {
 
   update(): void{
     console.log("Button Update");
-    this.marketService.updateMarket(this.market).subscribe(market => {this.location.back()});;
+    this.marketService.updateMarket(this.market).subscribe(market => {
+      this.showProgressBar = true;
+      var params = new HttpParams();
+      params=params.append("marketname",this.market.name);    
+      this.welfinityscriptsService.WIM_createMarkets(params).subscribe(data => {this.requetResult =  data['result'];   console.log('result ' + this.requetResult);
+      this.showProgressBar = false;
+      this.location.back();    
+    });
+      
+    });;
   }
 }
