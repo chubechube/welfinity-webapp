@@ -1,24 +1,4 @@
 /* MarketSearch private styles */
-.example-container {
-  display: flex;
-  flex-direction: column;
-  min-width: 300px;
-}
-
-.example-header {
-  min-height: 64px;
-  padding: 8px 24px 0;
-}
-
-.mat-form-field {
-  font-size: 14px;
-  width: 100%;
-}
-
-.mat-table {
-  overflow: auto;
-  max-height: 500px;
-}
 
 .search-result li {
   border-bottom: 1px solid black;
@@ -59,4 +39,9 @@
 ul.search-result {
   margin-top: 0;
   padding-left: 0;
+}
+
+.product_table {
+  min-width: 300px;
+  max-height: 700px;
 }
