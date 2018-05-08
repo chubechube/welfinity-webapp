@@ -1,0 +1,4 @@
+REGISTRY_URL=docker.sailstream.eu
+REGISTRY_USER=ressic
+REGISTRY_PASSWORD=welfinity
+IMAGE_PREFIX=docker.sailstream.eu

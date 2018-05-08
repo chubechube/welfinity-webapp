@@ -4,10 +4,10 @@ volumes:
 
 services:
   WelfinityWebAppAngular:
-    image: chube/welfinity-web-angular:latest 
+    image: {IMAGE_PREFIX}/welfinity-web-angular:latest 
     labels:
       io.rancher.container.pull_image: always
-      io.rancher.scheduler.affinity:host_label: "environment=aggregation_dev"
+      io.rancher.scheduler.affinity:host_label: "{RANCHER_ENVIRONMENT}"
     tty: true
     volumes:
     - logcontainer:/var/log/welfinity/
@@ -15,10 +15,10 @@ services:
     ports:
     - 4200:4200/tcp
   WelfinityWebappRedis:
-    image: chube/welfinity-webapp-redis:latest
+    image: {IMAGE_PREFIX}/welfinity-webapp-redis:latest
     labels:
       io.rancher.container.pull_image: always
-      io.rancher.scheduler.affinity:host_label: "environment=aggregation_dev"
+      io.rancher.scheduler.affinity:host_label: "{RANCHER_ENVIRONMENT}"
     tty: true
     volumes:
     - logcontainer:/var/log/welfinity/
@@ -26,10 +26,10 @@ services:
     ports:
     - 6379:6379/tcp
   WelfinityWebAppExpress:
-    image: chube/welfinity-webapp-express:latest
+    image: {IMAGE_PREFIX}/welfinity-webapp-express:latest
     labels:
       io.rancher.container.pull_image: always
-      io.rancher.scheduler.affinity:host_label: "environment=aggregation_dev"
+      io.rancher.scheduler.affinity:host_label: "{RANCHER_ENVIRONMENT}"
     tty: true
     ports:
     - 3030:3030/tcp
