@@ -1,0 +1,39 @@
+version: '2'
+volumes:
+  logcontainer: {}
+
+services:
+  WelfinityWebAppAngular:
+    image: chube/welfinity-web-angular:latest 
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.scheduler.affinity:host_label: "{RANCHER_ENVIRONMENT}"
+    tty: true
+    volumes:
+    - logcontainer:/var/log/welfinity/
+    stdin_open: true
+    ports:
+    - 4200:4200/tcp
+  WelfinityWebappRedis:
+    image: chube/welfinity-webapp-redis:latest
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.scheduler.affinity:host_label: "{RANCHER_ENVIRONMENT}"
+    tty: true
+    volumes:
+    - logcontainer:/var/log/welfinity/
+    stdin_open: true
+    ports:
+    - 6379:6379/tcp
+  WelfinityWebAppExpress:
+    image: chube/welfinity-webapp-express:latest
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.scheduler.affinity:host_label: "{RANCHER_ENVIRONMENT}"
+    tty: true
+    ports:
+    - 3030:3030/tcp
+    volumes:
+    - logcontainer:/var/log/welfinity/
+    - /data:/data/
+    stdin_open: true
