@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { WelfinityscriptsService } from '../Services/welfinityscripts.service';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -10,6 +10,7 @@ import { Product } from '../Products/products';
 import { ProductsService } from '../Services/products.service';
 import { saveAs } from 'file-saver/FileSaver';
 
+import { ProductTableComponent } from '../products-table-component/product-table.component';
 import {MomentDateAdapter} from '@angular/material-moment-adapter';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';  
 import * as _moment from 'moment';
@@ -31,6 +32,8 @@ import {MatDatepickerInputEvent} from '@angular/material/datepicker';
 
 export class AggregationsComponent implements OnInit {
 
+  @ViewChild(ProductTableComponent)
+  private productTableComponent: ProductTableComponent;
   showProgressBar: boolean;
   products$: Observable<Product[]>;
   lastDateInput: Date | null;
@@ -48,7 +51,10 @@ export class AggregationsComponent implements OnInit {
 
   private searchTerms = new Subject<string>();
 
-  constructor(private productsService: ProductsService, private welfinityscriptsService: WelfinityscriptsService ) { }
+  constructor(private productsService: ProductsService, private welfinityscriptsService: WelfinityscriptsService ) { 
+    
+    
+  }
 
     // Push a search term into the observable stream.
     search(term: string): void {
@@ -67,6 +73,8 @@ export class AggregationsComponent implements OnInit {
       // switch to new search observable each time the term changes
       switchMap((term: string) => this.productsService.searchProducts(term)),
     );
+
+    this.showProgressBar = false;
   }
 
 
@@ -92,9 +100,11 @@ export class AggregationsComponent implements OnInit {
 
   }
 
+  createMarket(){
+    console.log("this is the function hook "+ this.productTableComponent.table_dataTable[0].code);
+  }
   addStartDate(type: string, event: MatDatepickerInputEvent<Date>) {
     this.startdate = moment(event.value).format('DD[/]MM[/]YYYY');
-
   }
 
   addEndDate(type: string, event: MatDatepickerInputEvent<Date>) {

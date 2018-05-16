@@ -48,13 +48,13 @@ class MarketsHandler  {
 	
 	
 	findMarketByName(marketName){
-		var marketModel=this.connection.model("italianmarkets",this.marketSchema);
+		var marketModel=this.connection.model(process.env.DB_MARKETS_COLLECTION,this.marketSchema);
 		return marketModel.find({name : marketName}).exec();
 		}
 
 
 	updateMarketbyId(jsonObject){
-		var marketModel=this.connection.model("italianmarkets",this.marketSchema);
+		var marketModel=this.connection.model(process.env.DB_MARKETS_COLLECTION,this.marketSchema);
 		console.log("PUT !!!!!" +JSON.stringify(jsonObject));
 		return marketModel.findByIdAndUpdate(jsonObject._id,{
 				name : jsonObject.name,
@@ -68,7 +68,7 @@ class MarketsHandler  {
 	}
 	
 	createMarket(jsonObject){
-		var marketModel=this.connection.model("italianmarkets",this.marketSchema);
+		var marketModel=this.connection.model(process.env.DB_MARKETS_COLLECTION,this.marketSchema);
 		var newMarket=new marketModel();
 		console.log(JSON.stringify(jsonObject));
 
@@ -83,12 +83,12 @@ class MarketsHandler  {
 
 
 	deleteMarketByName(marketName){
-		var marketModel=this.connection.model("italianmarkets",this.marketSchema);
+		var marketModel=this.connection.model(process.env.DB_MARKETS_COLLECTION,this.marketSchema);
 		return marketModel.remove({name : marketName}).exec();
 	}
 
 	getAllMarkets(){
-		var marketModel=this.connection.model("italianmarkets",this.marketSchema);
+		var marketModel=this.connection.model(process.env.DB_MARKETS_COLLECTION,this.marketSchema);
 			return marketModel.find(function(err,users){
 				if(err) {return console.log(err);}
 				return users;

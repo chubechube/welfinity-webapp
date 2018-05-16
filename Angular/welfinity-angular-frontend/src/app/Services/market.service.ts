@@ -61,7 +61,7 @@ private handleError<T> (operation = 'operation', result?: T) {
 
 /** PUT: update the Market on the server */
 updateMarket (market: Market): Observable<any> {
-  return this.http.put(this.marketsUrl, market, httpOptions).pipe(
+  return this.http.put(this.marketsUrl, market, {responseType: 'text'}).pipe(
     tap(_ => this.log(`updated market id=${market._id}`)),
     catchError(this.handleError<any>('updateMarket'))
   );

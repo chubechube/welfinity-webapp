@@ -51,7 +51,6 @@ export class MarketDetailComponent implements OnInit {
   }
 
   create(): void{ 
-    console.log("Button Create "+this.market.name);
     this.marketService.addMarket(this.market).subscribe(market => {this.location.back()});
   }
 

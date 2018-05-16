@@ -9,8 +9,9 @@
         <h4>Product Search</h4>
         <input  #searchBox id="search-box" (keyup)="search(searchBox.value)"  />
 
-         <button class="Extract" title="Perform Data Extraction"
-            (click)="WDM_Extract_and_Aggregate_Multiple()">Aggregate</button>
+        
+
+         
         
         <ul class="search-result">
           <li *ngFor="let product of products$ | async" >
@@ -38,6 +39,13 @@
               <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
               <mat-datepicker #picker2></mat-datepicker>
             </mat-form-field>
+
+            
+              <div class="action-button-row">
+                <button mat-raised-button color="primary" lass="Extract" title="Perform Data Extraction" (click)="WDM_Extract_and_Aggregate_Multiple()">Aggregate</button >
+                <button mat-raised-button color="primary" lass="CreateMarket" title="Create a Market With Selected Products" (click)="createMarket()">Create Market</button >
+              </div>
+
       </div>
   
     <div table>
