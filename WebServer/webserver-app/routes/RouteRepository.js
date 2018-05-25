@@ -144,7 +144,7 @@ self.router.all("*", function (req, res, next) {
 
 
 //WDM SERVICE
-self.router.get('/wdm',function(req, res) {
+self.router.get('/wdm',self.passportHandler.passport.authenticate('jwt', { session: false }),function(req, res) {
   
 	
 	self.welfinityservices.WDM_Extract_And_Aggregate_Multiple(req,res);
@@ -195,7 +195,7 @@ self.router.get('/product',self.passportHandler.passport.authenticate('jwt', { s
 self.router.get('/wim',self.passportHandler.passport.authenticate('jwt', { session: false }),function(req, res) {
 
 	console.log("GENERAT MARKET Query "+JSON.stringify(req.query));
- 	self.welfinityservices.startWimService(req,res);
+ 	self.welfinityservices.createMarketSupportTables(req,res);
  });
 
 

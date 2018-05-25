@@ -5,6 +5,7 @@ import { of } from 'rxjs/observable/of';
 import { MessageService } from '../Services/message.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
+import { ProductElement } from '../product-search/product-search.component';
 
 
 const httpOptions = {
@@ -14,11 +15,11 @@ const httpOptions = {
 @Injectable()
 export class MarketService {
   private marketsUrl = 'http://94.23.179.229:3030/markets';
+  private localTempProductList : ProductElement[] = [];
 
 
-  constructor(
-    private http: HttpClient,
-    private messageService: MessageService) { }
+  constructor(private http: HttpClient,private messageService: MessageService) { }
+
 
     /**
  * Handle Http operation that failed.
@@ -39,6 +40,16 @@ private handleError<T> (operation = 'operation', result?: T) {
     return of(result as T);
   };
 }
+
+  getLocalTempProductList():ProductElement[]{
+    return this.localTempProductList;
+  }
+
+  setLocalTempProductList(tmpProductList : ProductElement[]){
+    this.localTempProductList=tmpProductList;
+  }
+
+  
 
   getMarkets(): Observable<Market[]> {
     this.messageService.add('MarketService: fetched markets');

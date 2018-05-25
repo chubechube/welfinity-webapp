@@ -5,6 +5,7 @@ import { of } from 'rxjs/observable/of';
 import { MessageService } from '../Services/message.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
+import * as Rx from 'rxjs'
 
 
 const httpOptions = {
@@ -40,10 +41,17 @@ private handleError<T> (operation = 'operation', result?: T) {
   };
 }
 
+createProductListFromCodeList(codesList:String[]): Observable<Product[]>{
+  return Rx.Observable.from(codesList).concatMap(
+    (element) => {
+      return this.getProduct(String(element))
+   }).combineAll()
+  
+}
    
   getProduct(id: string): Observable<Product> {
     const url = `${this.productsUrl}/?is=${id}`;
-    return this.http.get<Product>(url).pipe(
+    return this.http.get<Product>(`${this.productsUrl}?code=${id}`).pipe(
       tap(_ => this.log(`fetched  productID=${id}`)),
       catchError(this.handleError<Product>(`getProduct id=${id}`))
     );

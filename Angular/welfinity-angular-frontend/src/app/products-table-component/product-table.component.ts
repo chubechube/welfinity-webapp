@@ -1,6 +1,6 @@
-import { Component,OnInit, Input ,  OnChanges, SimpleChange ,SimpleChanges,  }         from '@angular/core';
-import { MatTableDataSource }               from '@angular/material';
-import { ProductElement } from '../dashboard/dashboard.component';
+import { Component,OnInit, Input, Output , OnChanges, SimpleChange ,SimpleChanges,  }          from '@angular/core';
+import { MatTableDataSource }                                                           from '@angular/material';
+import { ProductElement }                                                               from '../dashboard/dashboard.component';
 
 
 
@@ -22,10 +22,21 @@ export class ProductTableComponent implements OnInit ,  OnChanges  {
     @Input() selected_item :    ProductElement
     @Input() initial_products:  ProductElement[]
 
+
+
     constructor()  {
 
   
     }
+
+    ngOnInit(){
+     
+          if(this.initial_products != undefined)
+          {
+            this.table_dataTable = this.initial_products;
+          }
+      }
+  
 
     onRemoveClicked(ProductElement){
  
@@ -35,7 +46,7 @@ export class ProductTableComponent implements OnInit ,  OnChanges  {
       }
       
       this.table_dataTable = [...this.table_dataTable ];
-        this.table_dataSource.data = this.table_dataTable;
+      this.table_dataSource.data = this.table_dataTable;
     }
 
     onClearClicked(){
@@ -52,21 +63,38 @@ export class ProductTableComponent implements OnInit ,  OnChanges  {
         this.table_dataTable = [...this.table_dataTable , {code : this.selected_item.code , description : this.selected_item.description}];
         this.table_dataSource.data = this.table_dataTable;
      }
+
+     if(propName == "initial_products" && this.initial_products != null){
+      this.table_dataTable = this.initial_products;
+      this.table_dataSource.data = this.table_dataTable;
+   }
      
     }
  
   }
       
-    
+  createProductCodesStringArray(): Array<String>{
+    var codesArray: String[] = [];
+    this.table_dataTable.forEach(element => {
+      codesArray.push(element.code)
+      
+    });
 
-    ngOnInit(){
-          
-          if(this.initial_products != undefined)
-          {
-            this.table_dataTable = this.initial_products;
-          }
-      }
-  
+    return codesArray
+
+  }
+
+    addElementStrings(code : string, description: string){
+      this.table_dataTable = [...this.table_dataTable , {code : code , description : description}];
+      this.table_dataSource.data = this.table_dataTable;
+    }
+
+    addElementProduct(product: ProductElement){
+      this.table_dataTable = [...this.table_dataTable , product];
+      this.table_dataSource.data = this.table_dataTable;
+    }
+
+    
     applyFilter(filterValue: string) {
       filterValue = filterValue.trim(); // Remove whitespace
       filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches

@@ -1,28 +1,26 @@
-import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
-import { WelfinityscriptsService } from '../Services/welfinityscripts.service';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
-import { of } from 'rxjs/observable/of';
-import { FormControl} from '@angular/forms';
-import { MatTableDataSource} from '@angular/material';
-import { HttpParams} from "@angular/common/http";
-import { Product } from '../Products/products';
-import { ProductsService } from '../Services/products.service';
-import { saveAs } from 'file-saver/FileSaver';
+import { ChangeDetectionStrategy, Component, OnInit, ViewChild }  from '@angular/core';
+import { Router }                                                 from "@angular/router";
+import { FormControl}                                             from '@angular/forms';
+import { HttpParams}                                              from "@angular/common/http";
+import { MomentDateAdapter}                                       from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE}          from '@angular/material/core';
+import { MatDatepickerInputEvent}                                 from '@angular/material/datepicker';  
+import { WelfinityscriptsService }                                from '../Services/welfinityscripts.service';
+import { MarketService }                                          from '../Services/market.service';
+import { Observable }                                             from 'rxjs/Observable';
+import { Subject }                                                from 'rxjs/Subject';
+import { of }                                                     from 'rxjs/observable/of';
+import { Product }                                                from '../Products/products';
+import { saveAs }                                                 from 'file-saver/FileSaver';
+import { ProductTableComponent }                                  from '../products-table-component/product-table.component';
+import { Market }                                                 from '../markets/market';
+import * as _moment                                               from 'moment';
+import {default as _rollupMoment}                                 from 'moment';
+import { debounceTime, distinctUntilChanged, switchMap}           from 'rxjs/operators';
 
-import { ProductTableComponent } from '../products-table-component/product-table.component';
-import {MomentDateAdapter} from '@angular/material-moment-adapter';
-import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';  
-import * as _moment from 'moment';
-import {default as _rollupMoment} from 'moment';
+
+
 const moment = _rollupMoment || _moment;
-
-import {
-  debounceTime, distinctUntilChanged, switchMap
-} from 'rxjs/operators';
-
-import {MatDatepickerInputEvent} from '@angular/material/datepicker';
-
 
 @Component({
   selector: 'app-aggregations',
@@ -35,52 +33,80 @@ export class AggregationsComponent implements OnInit {
   @ViewChild(ProductTableComponent)
   private productTableComponent: ProductTableComponent;
   showProgressBar: boolean;
-  products$: Observable<Product[]>;
   lastDateInput: Date | null;
   lastDateChange: Date | null;
   dateCtrl = new FormControl();
   startdate: string | null;
   enddate:  string | null;
 
-  displayedColumns = ['code', 'description'];
-  dataSource = new MatTableDataSource();
   product_table_item: ProductElement[] =[];
   selected_item : ProductElement= null;
-  initial_products : ProductElement[] =[];
+ 
  
 
   private searchTerms = new Subject<string>();
 
-  constructor(private productsService: ProductsService, private welfinityscriptsService: WelfinityscriptsService ) { 
+  constructor(private welfinityscriptsService: WelfinityscriptsService,private marketService: MarketService, private router: Router) { 
     
     
   }
-
-    // Push a search term into the observable stream.
-    search(term: string): void {
-      this.searchTerms.next(term);
-    }
-
 
   ngOnInit() {
-    this.products$ = this.searchTerms.pipe(
-      // wait 300ms after each keystroke before considering the term
-      debounceTime(300),
+   
+  }
+  performAggregation(){
 
-      // ignore new term if same as previous term
-      distinctUntilChanged(),
+    //support market creation
+    this.showProgressBar = true;
+    var supportMarket = new Market();
+    supportMarket.name="tempMarket"+Date.now();
+    supportMarket.codici=this.productTableComponent.createProductCodesStringArray();
+    supportMarket.country="Neverland";
+    supportMarket.description="tempmarketforaggregation";
+    
+    this.marketService.addMarket(supportMarket).subscribe(market => {
+      //Market Support Table Generation
+      var params = new HttpParams();
+      params=params.append("marketname",supportMarket.name);    
+      this.welfinityscriptsService.WIM_createMarkets(params).subscribe(data => {
 
-      // switch to new search observable each time the term changes
-      switchMap((term: string) => this.productsService.searchProducts(term)),
-    );
+        //Aggregation
+    
+          var params = new HttpParams()
+            
+          for (var i = 0, len = supportMarket.codici.length; i < len; i++) {
+            
+            params=params.append("productcodes[]",supportMarket.codici[i].toString());
+            console.log("PRODUCT " +supportMarket.codici[i].toString());
+          }
 
-    this.showProgressBar = false;
+          params=params.append("marketname",supportMarket.name);
+          params=params.append("startdate",this.startdate);
+          params=params.append("enddate",this.enddate);
+          this.welfinityscriptsService.WDM_Extract_and_Aggregate_Multiple(params).subscribe(data => { var blob = new Blob([data], {type: 'application/vnd.ms-excel'});
+          var filename = 'aggregated.xls';
+          
+          saveAs(blob, filename);
+          
+            //Market Support Table Delete
+            this.marketService.deleteMarket(supportMarket.name).subscribe(data => this.marketService.getMarkets().subscribe(markets =>{ 
+            this.showProgressBar = false;
+            }));
+          });
+    
+    
+    
+    });
+    
+    });
+
   }
 
 
-
+     
+  /*
   WDM_Extract_and_Aggregate_Multiple(){
-    this.showProgressBar = true;
+    //this.showProgressBar = true;
     var params = new HttpParams()
   
     for (var i = 0, len = this.product_table_item.length; i < len; i++) {
@@ -99,10 +125,12 @@ export class AggregationsComponent implements OnInit {
     
 
   }
-
+*/
   createMarket(){
-    console.log("this is the function hook "+ this.productTableComponent.table_dataTable[0].code);
+    this.marketService.setLocalTempProductList(this.product_table_item);
+    this.router.navigate(['/market_detail/' ]);
   }
+
   addStartDate(type: string, event: MatDatepickerInputEvent<Date>) {
     this.startdate = moment(event.value).format('DD[/]MM[/]YYYY');
   }
@@ -112,21 +140,18 @@ export class AggregationsComponent implements OnInit {
 
   }
 
-
-  
-    applyFilter(filterValue: string) {
-      filterValue = filterValue.trim(); // Remove whitespace
-      filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-      this.dataSource.filter = filterValue;
-    }
-
-    addProductToTable(productCode: string, description: string){
+  addProductToTable(productCode: string, description: string){
       this.product_table_item.push({code: productCode, description: description});
-      this.dataSource.data=this.product_table_item;
       this.selected_item = {code: productCode, description: description};
 
     }
 
+  onProductSelected(product: string[]){
+      this.productTableComponent.addElementStrings(product[0],product[1]);
+      this.addProductToTable(product[0],product[1]);
+    }
+    
+    
 }
 
 export interface ProductElement {

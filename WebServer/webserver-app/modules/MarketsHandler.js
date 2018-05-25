@@ -1,4 +1,4 @@
-var  mongoose 		= require('mongoose');
+var  mongoose 			= require('mongoose');
 const  bcrypt			= require('bcrypt-nodejs');
 
 
@@ -38,7 +38,6 @@ class MarketsHandler  {
 
 			this.db.createConnection(uri,options).then(
 				conn => {
-					console.log("URI MARKET "+uri);
 					self.connection=conn;
 					self.connected = true;
 					self.spider.emit(self.spider.availableMessages.DBHANDLER_MARKET_CONNECTION_OK);
@@ -55,7 +54,6 @@ class MarketsHandler  {
 
 	updateMarketbyId(jsonObject){
 		var marketModel=this.connection.model(process.env.DB_MARKETS_COLLECTION,this.marketSchema);
-		console.log("PUT !!!!!" +JSON.stringify(jsonObject));
 		return marketModel.findByIdAndUpdate(jsonObject._id,{
 				name : jsonObject.name,
 				codici : this.createCodesArray(jsonObject),
@@ -84,6 +82,12 @@ class MarketsHandler  {
 
 	deleteMarketByName(marketName){
 		var marketModel=this.connection.model(process.env.DB_MARKETS_COLLECTION,this.marketSchema);
+		this.connection.dropCollection(marketName+"_TR001").then(test=>{
+			this.connection.dropCollection(marketName+"_TR017").then(test=>{
+			})
+
+
+		})
 		return marketModel.remove({name : marketName}).exec();
 	}
 

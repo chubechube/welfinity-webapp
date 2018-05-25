@@ -13,10 +13,12 @@
     </label>
     </div>
 
-    <div >
-    <label>Codici:
-      <input [(ngModel)]="market.codici" placeholder="codici">
-    </label>
+   
+
+    <div>
+      <label>Prodotti</label>
+        <app-product-search (onProductSelected)="onProductSelected($event)"></app-product-search>
+        <product-table-component [initial_products]="initial_products"></product-table-component>
     </div>
 
     <div >
@@ -37,6 +39,6 @@
 
   </div>
   <button  *ngIf="!isCreation" (click)="update()">Update</button>
-  <button  *ngIf="isCreation" (click)="create()">Create</button>
+  <button  *ngIf="isCreation"  (click)="create()">Create</button>
   <button  (click)="goBack()">Go back</button>
 

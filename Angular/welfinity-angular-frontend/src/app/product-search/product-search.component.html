@@ -1,7 +1,13 @@
 <div id="search-component">
   <h4>Product Search</h4>
-
   <input #searchBox id="search-box" (keyup)="search(searchBox.value)" />
 
-  
+  <ul class="search-result">
+    <li *ngFor="let product of products$ | async" >
+      <a >
+      <a (click)="productSelected(product.FDI_0001,product.FDI_0004)"> <span class="badge"> {{product.FDI_0001}}</span>  {{product.FDI_0004}}</a>      
+      </a>
+    </li> 
+  </ul>
+
 </div>

@@ -3,37 +3,29 @@
   <mat-progress-bar   mode="indeterminate"></mat-progress-bar>
 </div>
 
-<div fxLayout="row" fxLayoutAlign=" start" fxFlexFill>
+<div fxLayout="column" fxLayoutAlign=" start" fxFlexFill>
   
-      <div id="search-component">
-        <h4>Product Search</h4>
-        <input  #searchBox id="search-box" (keyup)="search(searchBox.value)"  />
+      
+    <div class="search-compomnent">
+      <app-product-search (onProductSelected)="onProductSelected($event)"></app-product-search>
+    </div>
+     
+  
+    <div class="table">
+       <product-table-component [initial_products]="initial_products" ></product-table-component>
+    </div>
 
-        
 
-         
-        
-        <ul class="search-result">
-          <li *ngFor="let product of products$ | async" >
-            <a >
-            <a (click)="addProductToTable(product.FDI_0001,product.FDI_0004)"> <span class="badge"> {{product.FDI_0001}}</span>  {{product.FDI_0004}}</a>      
-            </a>
-          </li> 
-        </ul>
-
-        <h4>Dates Interval</h4>
-          <mat-form-field>
-              <input matInput [matDatepicker]="picker1" placeholder="Start Date"
+    <div class="Dates">
+      <h4>Dates Interval</h4>
+        <mat-form-field>
+            <input matInput [matDatepicker]="picker1" placeholder="Start Date"
                     (dateInput)="addStartDate('input', $event)" (dateChange)="addStartDate('change', $event)">
               <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
               <mat-datepicker #picker1></mat-datepicker>
             </mat-form-field>
 
-
-
-
-
-          <mat-form-field>
+        <mat-form-field>
               <input matInput [matDatepicker]="picker2" placeholder="End Date"
                     (dateInput)="addEndDate('input', $event)" (dateChange)="addEndDate('change', $event)">
               <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
@@ -41,18 +33,13 @@
             </mat-form-field>
 
             
-              <div class="action-button-row">
-                <button mat-raised-button color="primary" lass="Extract" title="Perform Data Extraction" (click)="WDM_Extract_and_Aggregate_Multiple()">Aggregate</button >
-                <button mat-raised-button color="primary" lass="CreateMarket" title="Create a Market With Selected Products" (click)="createMarket()">Create Market</button >
-              </div>
+              
 
       </div>
-  
-    <div table>
 
-      <div class="product_table">
-        <product-table-component [selected_item]="selected_item" [initial_products]="initial_products"></product-table-component>
-    
+      <div class="action-button-row">
+        <button mat-raised-button color="primary" lass="Extract" title="Perform Data Extraction" (click)="performAggregation()">Aggregate</button >
+        <button mat-raised-button color="primary" lass="CreateMarket" title="Create a Market With Selected Products" (click)="createMarket()">Create Market</button >
       </div>
    
   </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component,EventEmitter, OnInit, Output } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -19,15 +19,19 @@ import {
   styleUrls: ['./product-search.component.css']
 })
 export class ProductSearchComponent implements OnInit {
+  
+  @Output() onProductSelected = new EventEmitter<string[]>();
   products$: Observable<Product[]>;
-
   private searchTerms = new Subject<string>();
 
   constructor(private productsService: ProductsService) { }
-
     // Push a search term into the observable stream.
     search(term: string): void {
       this.searchTerms.next(term);
+    }
+
+    productSelected(productCode: string,productDescription: string) {
+      this.onProductSelected.emit([productCode,productDescription]);
     }
 
   ngOnInit() {
@@ -42,5 +46,11 @@ export class ProductSearchComponent implements OnInit {
       switchMap((term: string) => this.productsService.searchProducts(term)),
     );
   }
-
 }
+
+export interface ProductElement {
+  code: string;
+  description: string;
+ 
+}
+
