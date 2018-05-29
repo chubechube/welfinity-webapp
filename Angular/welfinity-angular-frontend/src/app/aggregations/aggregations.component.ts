@@ -51,9 +51,9 @@ export class AggregationsComponent implements OnInit {
     
   }
 
-  ngOnInit() {
-   
-  }
+  ngOnInit() {}
+
+
   performAggregation(){
 
     //support market creation
@@ -102,30 +102,6 @@ export class AggregationsComponent implements OnInit {
 
   }
 
-
-     
-  /*
-  WDM_Extract_and_Aggregate_Multiple(){
-    //this.showProgressBar = true;
-    var params = new HttpParams()
-  
-    for (var i = 0, len = this.product_table_item.length; i < len; i++) {
-     
-      params=params.append("productcodes[]",this.product_table_item[i].code);
-     }
-
-     params=params.append("startdate",this.startdate);
-     params=params.append("enddate",this.enddate);
-    this.welfinityscriptsService.WDM_Extract_and_Aggregate_Multiple(params).subscribe(data => { var blob = new Blob([data], {type: 'application/vnd.ms-excel'});
-    var filename = 'aggregated.xls';
-    
-    saveAs(blob, filename);
-    this.showProgressBar = false;
-    });
-    
-
-  }
-*/
   createMarket(){
     this.marketService.setLocalTempProductList(this.product_table_item);
     this.router.navigate(['/market_detail/' ]);
@@ -140,15 +116,9 @@ export class AggregationsComponent implements OnInit {
 
   }
 
-  addProductToTable(productCode: string, description: string){
-      this.product_table_item.push({code: productCode, description: description});
-      this.selected_item = {code: productCode, description: description};
-
-    }
-
   onProductSelected(product: string[]){
       this.productTableComponent.addElementStrings(product[0],product[1]);
-      this.addProductToTable(product[0],product[1]);
+      this.selected_item = {code: product[0], description: product[1]};
     }
     
     

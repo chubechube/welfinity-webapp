@@ -35,11 +35,12 @@ class UserHandler  {
         this.connection = this.mongoose.createConnection(uri,options)
 
         this.connection.on('error', function(err){
+			console.log(uri);
             if(err) throw err;
           });
           
           this.connection.once('open', function callback () {
-            console.info('Mongo db connected successfully');
+            console.info('User Handler : Mongo db connected successfully');
             self.connected = true;
                 self.spider.emit(self.spider.availableMessages.DBHANDLER_USER_CONNECTION_OK);
           });

@@ -58,7 +58,7 @@ const session                   = require('express-session');
         
     });
   spider.on(spider.availableMessages.DBHANDLER_USER_CONNECTION_OK,function(){
-        console.log("ALL Modules Initiated - Starting Server");
+        console.log("ALL Modules Initiated - Starting Welfinity Web Server Server");
 
 
 
