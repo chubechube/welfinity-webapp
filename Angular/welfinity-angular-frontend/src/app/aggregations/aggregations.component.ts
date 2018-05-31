@@ -103,7 +103,7 @@ export class AggregationsComponent implements OnInit {
   }
 
   createMarket(){
-    this.marketService.setLocalTempProductList(this.product_table_item);
+    this.marketService.setLocalTempProductList(this.productTableComponent.table_dataTable);
     this.router.navigate(['/market_detail/' ]);
   }
 
