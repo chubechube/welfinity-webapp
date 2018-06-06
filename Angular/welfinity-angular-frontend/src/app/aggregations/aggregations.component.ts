@@ -62,7 +62,7 @@ export class AggregationsComponent implements OnInit {
     supportMarket.name="tempMarket"+Date.now();
     supportMarket.codici=this.productTableComponent.createProductCodesStringArray();
     supportMarket.country="Neverland";
-    supportMarket.description="tempmarketforaggregation";
+    supportMarket.description='tempmarketforaggregation';
     
     this.marketService.addMarket(supportMarket).subscribe(market => {
       //Market Support Table Generation
@@ -70,7 +70,7 @@ export class AggregationsComponent implements OnInit {
       params=params.append("marketname",supportMarket.name);    
       this.welfinityscriptsService.WIM_createMarkets(params).subscribe(data => {
 
-        //Aggregation
+        // Aggregation
     
           var params = new HttpParams()
             
@@ -88,16 +88,16 @@ export class AggregationsComponent implements OnInit {
           
           saveAs(blob, filename);
           
-            //Market Support Table Delete
-            this.marketService.deleteMarket(supportMarket.name).subscribe(data => this.marketService.getMarkets().subscribe(markets =>{ 
+            // Market Support Table Delete
+            this.marketService.deleteMarket(supportMarket.name).subscribe(data => this.marketService.getMarkets().subscribe(markets =>{
             this.showProgressBar = false;
             }));
           });
-    
-    
-    
+
+
+
     });
-    
+
     });
 
   }
@@ -120,14 +120,14 @@ export class AggregationsComponent implements OnInit {
       this.productTableComponent.addElementStrings(product[0],product[1]);
       this.selected_item = {code: product[0], description: product[1]};
     }
-    
-    
+
+
 }
 
 export interface ProductElement {
   code: string;
   description: string;
- 
+
 }
 
 
