@@ -11,7 +11,7 @@ class UserHandler  {
 
 
 		
-		this.mongoose		   	= mongoose;
+		this.db		   			= mongoose;
 		this.spider 			= spider;
 		this.self				= this;
         this.Schema 			= mongoose.Schema;
@@ -31,7 +31,7 @@ class UserHandler  {
         var options = {promiseLibrary : global.Promise };
 		
 	
-    
+    /*
         this.connection = this.mongoose.createConnection(uri,options)
 
         this.connection.on('error', function(err){
@@ -45,7 +45,15 @@ class UserHandler  {
                 self.spider.emit(self.spider.availableMessages.DBHANDLER_USER_CONNECTION_OK);
           });
                 
-            
+            */
+
+		   this.db.createConnection(uri,options).then(
+			conn => {
+				self.connection=conn
+				self.connected = true
+				console.log("User DB URI "+uri)
+				self.spider.emit(self.spider.availableMessages.DBHANDLER_USER_CONNECTION_OK)
+				});
     
     
         

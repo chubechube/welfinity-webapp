@@ -38,6 +38,7 @@ class MarketsHandler  {
 
 			this.db.createConnection(uri,options).then(
 				conn => {
+					console.log("Markets DB URI "+uri)
 					self.connection=conn;
 					self.connected = true;
 					self.spider.emit(self.spider.availableMessages.DBHANDLER_MARKET_CONNECTION_OK);

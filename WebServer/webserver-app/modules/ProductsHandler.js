@@ -22,14 +22,14 @@ connectDB(){
     
     this.db.createConnection(uri,options).then(
         conn => {
-            console.log("This is the URI Product "+uri);
+            console.log("Products DB URI "+uri)
             self.productModel=conn.model("TR001",new self.Schema({
                 FDI_0001        : String,
                 FDI_0004     : String
-            }),'TR001');
+            }),'TR001')
 
-            self.connected = true;
-            self.spider.emit(self.spider.availableMessages.DBHANDLER_PRODUCT_CONNECTION_OK);
+            self.connected = true
+            self.spider.emit(self.spider.availableMessages.DBHANDLER_PRODUCT_CONNECTION_OK)
             });
 
 
