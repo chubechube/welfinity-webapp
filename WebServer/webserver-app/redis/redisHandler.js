@@ -1,5 +1,5 @@
 var redis = require("redis");
-client = redis.createClient({host : "192.168.1.3" , password : "chube2017"});
+client = redis.createClient({host : "94.23.179.229" , password : "foobared2"});
 
 //if you'd like to select database 3, instead of 0 (default), call
 //client.select(3, function() { /* ... */ });
@@ -8,13 +8,35 @@ client.on("error", function (err) {
  console.log("Error " + err);
 });
 
-client.set("string key", "string val", redis.print);
-client.hset("hash key", "hashtest 1", "some value", redis.print);
-client.hset(["hash key", "hashtest 2", "some other value"], redis.print);
-client.hkeys("hash key", function (err, replies) {
- console.log(replies.length + " replies:");
- replies.forEach(function (reply, i) {
-     console.log("    " + i + ": " + reply);
- });
- client.quit();
+client.on( 'ready',function(){
+    console.log("Redis Connected ")
+    
+    client.llen('WELFINITYPORTAL', function(err, reply) {  
+        if (err) {
+           // Log error
+           console.log("ERROR "+err)
+        }
+        // Log reply
+        var lenghtList=reply
+        console.log("LENGTH  "+reply)
+
+       
+    
+        client.lrange("WELFINITYPORTAL",0,lenghtList, function (err, keyList) {
+            if (err)
+                return console.log(err);
+            
+                for (let index = 0; index < 20; index++) {
+                    const element = keyList[index];
+                    console.log("KEY " + element + " Value "+ lenghtList)
+                    
+                }
+
+                
+            });
+       
+      
+    });
+    
+
 });
