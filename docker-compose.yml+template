@@ -43,10 +43,11 @@ services:
       io.rancher.container.pull_image: always
       io.rancher.scheduler.affinity:host_label: "{RANCHER_ENVIRONMENT}"
     tty: true
-    command: --redis-host WelfinityWebappRedis --redis-password foobared2  -p 8082
-    environment:
-    - REDIS_HOSTS=local:WelfinityWebappRedis:6379:0:foobared2
     ports:
     - 8082:8082
+    command: sh -c '/org/welfinity/scripts/wait-for.sh WelfinityWebappRedis:6379 -- redis-commander --redis-host WelfinityWebappRedis --redis-password foobared2  -p 8082'
+    depends_on:
+      - WelfinityWebappRedis
+    
 
     
