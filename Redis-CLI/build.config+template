@@ -1,0 +1,1 @@
+DOCKERIMAGE={IMAGE_PREFIX}/welfinity-webapp-redis-cli:latest

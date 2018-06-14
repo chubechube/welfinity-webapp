@@ -48,6 +48,15 @@ services:
     command: sh -c '/org/welfinity/scripts/wait-for.sh WelfinityWebappRedis:6379 -- redis-commander --redis-host WelfinityWebappRedis --redis-password foobared2  -p 8082'
     depends_on:
       - WelfinityWebappRedis
-    
-
-    
+  WelfinityWebappRedisCLI:
+    image: {IMAGE_PREFIX}/welfinity-webapp-redis-cli:latest
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.scheduler.affinity:host_label: "{RANCHER_ENVIRONMENT}"
+      io.rancher.container.start_once: true
+    tty: false
+    restart: "no"
+    depends_on:
+      - WelfinityWebappRedis
+   
+  

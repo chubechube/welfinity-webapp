@@ -30,6 +30,7 @@ services:
     labels:
       io.rancher.container.pull_image: always
       io.rancher.scheduler.affinity:host_label: "{RANCHER_ENVIRONMENT}"
+      io.rancher.container.start_once: true
     tty: true
     ports:
     - 3030:3030/tcp
