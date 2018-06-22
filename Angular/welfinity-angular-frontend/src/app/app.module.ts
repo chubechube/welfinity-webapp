@@ -1,4 +1,4 @@
-import { NgModule }                         from '@angular/core';
+import { NgModule, APP_INITIALIZER }                         from '@angular/core';
 import { CdkTableModule }                   from '@angular/cdk/table';
 import { FormsModule,ReactiveFormsModule }  from '@angular/forms';
 import { DomSanitizer }                     from '@angular/platform-browser';
@@ -27,6 +27,7 @@ import { WelfinityscriptsService }          from './Services/welfinityscripts.se
 import { ProductsService }                  from './Services/products.service';
 import { AuthService }                      from './Services/auth.service';
 import { AuthGuardService }                 from './Services/auth-guard.service';
+import { StartupService }                   from './Services/startup.service';
 
 //Interceptors and Sercices
 import { TokenInterceptor }                 from './Interceptors/token.interceptor';
@@ -59,6 +60,7 @@ import {
   MatGridListModule,
   MatTabsModule
 } from '@angular/material';
+
 
 
 
@@ -143,10 +145,31 @@ export class MaterialModule {}
     provide: HTTP_INTERCEPTORS,
     useClass: TokenInterceptor,
     multi: true
-  }, MarketService, MessageService ,WelfinityscriptsService,ProductsService,AuthService,AuthGuardService ],
+  },
+  {
+    provide: APP_INITIALIZER,
+    useFactory: startupServiceFactory,
+    deps: [StartupService],
+    multi: true
+  }
+
+  ,StartupService,MarketService, MessageService ,WelfinityscriptsService,ProductsService,AuthService,AuthGuardService ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+
+
+  constructor() {
+
+    console.log('App initialized');
+  }
+
+ }
+
+export function startupServiceFactory(startupService: StartupService): Function {
+  console.log('startupService Factory', startupService);
+  return () => { return startupService.load() }; // => required, otherwise `this` won't work inside StartupService::load
+}
 
 
 
